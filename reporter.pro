@@ -9,7 +9,8 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += src/design_reporter.cpp
+SOURCES += src/design_reporter.cpp \
+    src/DAG.cpp
 
 DISTFILES += \
     lib/osu350.json \
@@ -52,4 +53,5 @@ HEADERS += \
     src/lib/rapidjson/schema.h \
     src/lib/rapidjson/stream.h \
     src/lib/rapidjson/stringbuffer.h \
-    src/lib/rapidjson/writer.h
+    src/lib/rapidjson/writer.h \
+    src/DAG.h
