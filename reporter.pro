@@ -9,8 +9,9 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += src/design_reporter.cpp \
-    src/DAG.cpp
+SOURCES += \
+    src/DAG.cpp \
+    src/design_reporter.cpp
 
 DISTFILES += \
     lib/osu350.json \

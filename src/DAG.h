@@ -17,7 +17,7 @@ private:
 class node
 {
 public:
-	node(const string &name);
+    node(const std::string &name);
 	~node();
 private:
 	std::string name;
