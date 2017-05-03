@@ -9,7 +9,6 @@ class edge
 public:
     edge(const node &n);
     ~edge();
-private:
     node* n;
 };
 
@@ -21,8 +20,6 @@ public:
     ~node();
     void add_edge(const edge &e);
     void remove_edge(const edge &e);
-    std::vector<edge> get_edges() const;
-private:
     std::string name;
     std::vector<edge> edges;
 };
@@ -34,12 +31,7 @@ public:
     ~DAG();
     void add_node(const node &n);
     void remove_node(const node &n);
-    std::vector<node> get_nodes() const;
-    void add_start(const node &n);
-    node& get_start() const;
-private:
     std::vector<node> nodes;
-    node* start;
 };
 
 #endif
