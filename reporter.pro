@@ -11,7 +11,8 @@ TEMPLATE = app
 
 SOURCES += \
     src/DAG.cpp \
-    src/design_reporter.cpp
+    src/design_reporter.cpp \
+    src/main.cpp
 
 DISTFILES += \
     lib/osu350.json \

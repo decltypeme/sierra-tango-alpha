@@ -35,8 +35,10 @@ public:
     void add_node(const node &n);
     void remove_node(const node &n);
     std::vector<node> get_nodes() const;
+    node& get_start() const;
 private:
     std::vector<node> nodes;
+    node* start;
 };
 
 #endif
