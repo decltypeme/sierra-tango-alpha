@@ -15,7 +15,6 @@
 
 using namespace rapidjson;
 
-
 //using namespace std;
 
 #define     MAXSIZE     16*1024
