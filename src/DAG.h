@@ -7,10 +7,10 @@
 class edge
 {
 public:
-	edge(const node* n);
-	~edge();
+    edge(const node* n);
+    ~edge();
 private:
-	node* node;
+    node* node;
 };
 
 
@@ -18,21 +18,21 @@ class node
 {
 public:
     node(const std::string &name);
-	~node();
+    ~node();
 private:
-	std::string name;
-	std::vector<edge> edges;
+    std::string name;
+    std::vector<edge> edges;
 };
 
 class DAG
 {
 public:
-	DAG();
-	~DAG();
-	void insert(const node &n);
-	void add_edge(node &out, const node &in);
+    DAG();
+    ~DAG();
+    void insert(const node &n);
+    void add_edge(node &out, const node &in);
 private:
-	std::vector<node> nodes;
+    std::vector<node> nodes;
 };
 
 #endif

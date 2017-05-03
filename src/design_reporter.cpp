@@ -1,8 +1,8 @@
 /**
  * Provided as a utility for CSCE 3304
  * Dr. Mohamed Shalan
- * The American University in Cairo 
- * 
+ * The American University in Cairo
+ *
  **/
 //#include <iostream>
 #include "stdio.h"
@@ -305,7 +305,7 @@ int dumpGates()
         area = area + doc["cells"][circuitGates[i].type]["area"].GetInt();
     }
 
-        /*
+    /*
         for(i=0; i<gCount; i++){
             //printf("JSON : %d\n", doc["cells"][circuitGates[i].type]["area"].GetInt());
             area = area + doc["cells"][circuitGates[i].type]["area"].GetInt();
@@ -316,11 +316,11 @@ int dumpGates()
                 }
         }
     */
-        for(e=0; e<cells->count; e++) {
-            printf("%s\tCount:%d, Area: %d\n", cells->items[e], stats[e], areas[e]);
-        }
-        printf("Total Cell Area: %d \n", area);
-        printf("Equivalent NAND2x1 Gates count: %d\n",area/doc["cells"]["NAND2X1"]["area"].GetInt());
+    for(e=0; e<cells->count; e++) {
+        printf("%s\tCount:%d, Area: %d\n", cells->items[e], stats[e], areas[e]);
+    }
+    printf("Total Cell Area: %d \n", area);
+    printf("Equivalent NAND2x1 Gates count: %d\n",area/doc["cells"]["NAND2X1"]["area"].GetInt());
 
 }
 
