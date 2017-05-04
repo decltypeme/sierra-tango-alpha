@@ -6,7 +6,7 @@
 
 class node;
 
-enum NODE_T {START, IN,OUT,CELL, FFD,FFQ};
+enum NODE_T {IN,OUT,CELL, FFD,FFQ};
 enum PATH_T {NA = -1, IR, RR, RO, IO};
 
 PATH_T get_path_type(const NODE_T& start_node_type, const NODE_T& end_node_type)

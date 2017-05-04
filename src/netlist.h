@@ -3,8 +3,12 @@
 #include "DAG.h"
 #include <fstream>
 #include <vector>
+#include <utility>
 
-//std::vector<std::vector<>> nodes;
+//std::vector<std::pair<std::string,std::vector<std::string>>> inputs;
+//std::vector<std::pair<std::string,std::vector<std::string>>> inputs;
+//std::vector<> cells;
+//std::vector<DFF> DFFs;
 
 void read_netlist(std::ifstream &ifs)
 {
@@ -13,7 +17,7 @@ void read_netlist(std::ifstream &ifs)
 
 void fill_DAG(DAG &g)
 {
-    g.nodes.push_back(node("start", START));
+
 }
 
 void parse_netlist(std::ifstream &ifs, DAG &g)
