@@ -9,19 +9,7 @@ class node;
 enum NODE_T {IN,OUT,CELL, FFD,FFQ};
 enum PATH_T {NA = -1, IR, RR, RO, IO};
 
-PATH_T get_path_type(const NODE_T& start_node_type, const NODE_T& end_node_type)
-{
-    if(start_node_type == IN && end_node_type == FFD)
-        return IR;
-    else if(start_node_type == FFQ && end_node_type == FFD)
-        return RR;
-    else if(start_node_type == FFQ && end_node_type == OUT)
-        return RO;
-    else if(start_node_type == IN && end_node_type == OUT)
-        return IO;
-    else return NA;
-}
-
+PATH_T get_path_type(const NODE_T& start_node_type, const NODE_T& end_node_type);
 
 class edge
 {

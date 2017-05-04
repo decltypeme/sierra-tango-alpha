@@ -63,7 +63,7 @@ void fill_DAG(DAG &g)
 
 void parse_netlist(std::ifstream &ifs, DAG &g)
 {
-    read_netlist(ifs, g);
+    read_netlist(ifs, vecComp, g);
     fill_DAG(g);
 }
 

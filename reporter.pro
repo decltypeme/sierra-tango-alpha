@@ -11,7 +11,8 @@ TEMPLATE = app
 
 SOURCES += \
     src/main.cpp \
-    src/parser.cpp
+    src/parser.cpp \
+    src/DAG.cpp
 
 DISTFILES += \
     lib/osu350.json \
