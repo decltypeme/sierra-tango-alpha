@@ -19,4 +19,5 @@ DISTFILES += \
 
 HEADERS += \
     src/DAG.h \
-    src/path_finding.h
+    src/path_finding.h \
+    src/netlist.h

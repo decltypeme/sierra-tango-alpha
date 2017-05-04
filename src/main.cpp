@@ -1,3 +1,4 @@
+#include "netlist.h"
 #include "path_finding.h"
 using namespace std;
 
