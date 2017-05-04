@@ -3,7 +3,7 @@
 #include "DAG.h"
 #include <fstream>
 
-void parse_netlist(std::ifstream ifs, DAG &g)
+void parse_netlist(std::ifstream &ifs, DAG &g)
 {
 
 }
