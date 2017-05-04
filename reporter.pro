@@ -15,7 +15,11 @@ SOURCES += \
 DISTFILES += \
     lib/osu350.json \
     LICENSE \
-    README.md
+    README.md \
+    netlists/full_adder_1bit.netlist.v \
+    netlists/mux2_1.netlist.v \
+    netlists/muxFollowedBy2DFFs.v \
+    netlists/RtoR.netlist.v
 
 HEADERS += \
     src/DAG.h \

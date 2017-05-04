@@ -3,6 +3,8 @@
 #include "DAG.h"
 #include <fstream>
 
+
+
 void read_netlist(std::ifstream &ifs)
 {
 
