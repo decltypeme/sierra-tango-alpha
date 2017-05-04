@@ -2,8 +2,9 @@
 #define NETLIST_H
 #include "DAG.h"
 #include <fstream>
+#include <vector>
 
-
+//std::vector<std::vector<>> nodes;
 
 void read_netlist(std::ifstream &ifs)
 {

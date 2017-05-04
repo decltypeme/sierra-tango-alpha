@@ -26,8 +26,9 @@ PATH_T get_path_type(const NODE_T& start_node_type, const NODE_T& end_node_type)
 class edge
 {
 public:
-    edge(const node &n):n(&n){}
+    edge(const std::string &name, const node &n):name(name),n(&n){}
     ~edge(){}
+    std::string name;
     const node* n;
 };
 
@@ -56,11 +57,11 @@ public:
         }
         return nullptr;
     }
-    void join(std::string n1,std::string n2){
+    void join(std::string edgeName, std::string n1,std::string n2){
 
         node *n1_n= getNodeByName(n1);
         node *n2_n= getNodeByName(n2);
-        n1_n->edges.push_back(edge(*n2_n));
+        n1_n->edges.push_back(edge(edgeName,*n2_n));
 
 
     }
