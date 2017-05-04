@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+class node;
+
 enum NODE_T {IN,OUT,CELL, FFD,FFQ};
 enum PATH_T {NA = -1, IR, RR, RO, IO};
 
@@ -26,14 +28,14 @@ class edge
 public:
     edge(const node &n):n(&n){}
     ~edge(){}
-    node* n;
+    const node* n;
 };
 
 
 class node
 {
 public:
-    node(const std::string &name): name(name){}
+    node(const std::string &name, const NODE_T &type): name(name), type(type){}
     ~node(){}
     std::string name;
     NODE_T type;
@@ -46,6 +48,22 @@ public:
     DAG(){}
     ~DAG(){}
     std::vector<node> nodes;
+    inline node* getNodeByName(std::string NodeName) {
+        for(node &n:nodes)
+        {
+            if(n.name==NodeName)
+                return &n;
+        }
+        return nullptr;
+    }
+    void join(std::string n1,std::string n2){
+
+        node *n1_n= getNodeByName(n1);
+        node *n2_n= getNodeByName(n2);
+        n1_n->edges.push_back(edge(*n2_n));
+
+
+    }
 };
 
 #endif
