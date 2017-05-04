@@ -26,7 +26,7 @@ void process_component(string component_type, string component_name, string comp
         regex_search(line, sm, pin_pattern);
         new_pin.pinName = sm[1];
         new_pin.pinConn = sm[2];
-        vector<pin>& target_pin_vector = ( (new_pin.pinName[0] == 'Y') ? new_component.outputs : new_component.inputs);
+        vector<pin>& target_pin_vector = ( (new_pin.pinName[0] == 'Y' || new_pin.pinName[0] == 'Q') ? new_component.outputs : new_component.inputs);
         target_pin_vector.push_back(new_pin);
     }
     vecComp.push_back(new_component);
@@ -49,11 +49,12 @@ void read_netlist(std::ifstream &ifs, std::vector<compBox>& vecComp, DAG& g){
     string line;
     regex port_pattern("\\s*(input|output)\\s*(.+)\\s*");
     regex port_array_pattern("\\s*(input|output)\\s*\\[([0-9]+):([0-9]+)\\]\\s*([^\\s]*)\\s*");
-    regex component_pattern("\\s*([A-z|0-9|_]+)\\s+([A-z|0-9|_]+)\\s*\\((.*)\\)\\s*");
+    regex component_pattern("[\\s|\\n]*([A-z|0-9|_]+)[\\s|\\n]+([A-z|0-9|_]+)[\\s|\\n]*\\((.*)\\)[\\s|\\n]*");
     regex comment_pattern("\\s*/.*");
     //NOTE: Port Pattern captures a subset from port_array_pattern.
     //Port Array Pattern must be checked first
     while(getline(ifs, line, ';')){
+        cout << (line);
         if(regex_match(line, port_array_pattern)){
             regex_search(line, sm, port_array_pattern);
             //Assign the matching
@@ -74,7 +75,10 @@ void read_netlist(std::ifstream &ifs, std::vector<compBox>& vecComp, DAG& g){
             string component_type = sm[1];
             string component_name = sm[2];
             string component_pins = sm[3];
-            process_component(component_type, component_name, component_pins, vecComp);
+            if (component_type != "module")
+            {
+                process_component(component_type, component_name, component_pins, vecComp);
+            }
         }
     }
 

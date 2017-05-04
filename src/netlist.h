@@ -4,7 +4,7 @@
 
 bool isFF(std::string s)
 {
-    return (s=="DFF");
+    return (s.find("DFF") == 0);
 }
 
 void fill_DAG(DAG &g)
@@ -21,7 +21,35 @@ void fill_DAG(DAG &g)
         {
             g.nodes.push_back(node(c.name,CELL));
         }
+    }
 
+    for( node &n: g.nodes)
+    {
+        if (n.type== IN && n.name != "clk")
+        {
+            for( compBox &d: vecComp)
+            {
+                for(pin &ipin:d.inputs)
+                {
+                    if(ipin.pinConn==n.name)
+                    {
+                        if (isFF(d.type))
+                        {
+                            g.join("in_"+n.name,n.name,"d_"+d.name);
+                        }
+                        else
+                        {
+                            g.join("in_"+n.name,n.name,d.name);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    for( compBox &c: vecComp)
+    {
         for(pin &opin:c.outputs )
         {
             for( compBox &d: vecComp)
@@ -56,6 +84,19 @@ void fill_DAG(DAG &g)
                     }
                 }
             }
+            for( node &n: g.nodes)
+            {
+                if (n.type== OUT)
+                {
+                    if(opin.pinConn==n.name)
+                    {
+                        g.join(opin.pinConn,c.name,n.name);
+                    }
+
+                }
+            }
+
+
         }
 
     }
