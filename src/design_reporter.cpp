@@ -369,7 +369,7 @@ int loadSCL(char *fn)
     fclose(fp);
 }
 
-int main(int argc, char *argv[]) {
+int pseudomain(int argc, char *argv[]) {
     FILE *fp;
 
     loadSCL("../lib/osu350.json");

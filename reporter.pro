@@ -15,8 +15,7 @@ SOURCES += \
 DISTFILES += \
     lib/osu350.json \
     LICENSE \
-    README.md \
-    anding.json
+    README.md
 
 HEADERS += \
     src/lib/rapidjson/error/en.h \
