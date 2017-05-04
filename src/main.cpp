@@ -9,8 +9,6 @@ struct path{
     PATH_T pathtype;
 };
 
-//DFS bs hussam msh 3aez yesmeh DFS
-
 void get_paths_recursive(const node &n, const DAG &g, path whole_path, vector<path>& all_paths)
 {
     NODE_T current_node_type = n.type;
