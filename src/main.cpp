@@ -28,7 +28,7 @@ void get_paths_recursive(const node &n, const DAG &g, path whole_path, vector<pa
         return;
     }
     else{
-        for (edge e: n.edges)
+        for (const edge &e: n.edges)
         {
             get_paths_recursive(*e.n, g, whole_path, all_paths);
         }
@@ -38,7 +38,7 @@ void get_paths_recursive(const node &n, const DAG &g, path whole_path, vector<pa
 vector<path> get_paths(const node &n,const DAG &g)
 {
     vector<path> paths;
-    for (edge e: n.edges)
+    for (const edge &e: n.edges)
     {
         path local_path;
         local_path.start = &n;
@@ -52,23 +52,24 @@ int main()
     DAG g;
     vector<path> paths;
     g.nodes.push_back(node("a",IN));
-    g.nodes.push_back(node("b",IN));
     g.nodes.push_back(node("and",CELL));
+    g.nodes.push_back(node("or",CELL));
     g.nodes.push_back(node("inr1",FFD));
     g.nodes.push_back(node("outr1",FFQ));
     g.nodes.push_back(node("inr2",FFD));
     g.nodes.push_back(node("outr2",FFQ));
     g.nodes.push_back(node("c",OUT));
     g.join("a","and");
-    g.join("b","and");
+    g.join("a","or");
     g.join("and","inr1");
+    g.join("or","inr1");
     g.join("inr1","outr1");
     g.join("outr1","inr2");
     g.join("inr2","outr2");
     g.join("outr2","c");
 
 
-    for(node n: g.nodes)
+    for(node &n: g.nodes)
     {
         if ( n.type == OUT || n.type == FFD || n.type == CELL){
             continue;
@@ -76,4 +77,5 @@ int main()
         vector<path> paths_new = get_paths(n,g);
         paths.insert( paths.end(), paths_new.begin(), paths_new.end() );
     }
+    cout << "Before done!";
 }
