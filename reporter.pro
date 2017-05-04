@@ -10,7 +10,8 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += \
-    src/main.cpp
+    src/main.cpp \
+    src/parser.cpp
 
 DISTFILES += \
     lib/osu350.json \
@@ -24,4 +25,5 @@ DISTFILES += \
 HEADERS += \
     src/DAG.h \
     src/path_finding.h \
-    src/netlist.h
+    src/netlist.h \
+    src/parser.h
