@@ -13,7 +13,7 @@ void read_netlist(std::ifstream &ifs)
 
 void fill_DAG(DAG &g)
 {
-
+    g.nodes.push_back(node("start", START));
 }
 
 void parse_netlist(std::ifstream &ifs, DAG &g)
