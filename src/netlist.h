@@ -90,7 +90,10 @@ void fill_DAG(DAG &g)
                 {
                     if(opin.pinConn==n.name)
                     {
-                        g.join(opin.pinConn,c.name,n.name);
+                        if (isFF(c.type))
+                            g.join(opin.pinConn,"q_"+c.name,n.name);
+                        else
+                            g.join(opin.pinConn,c.name,n.name);
                     }
 
                 }
