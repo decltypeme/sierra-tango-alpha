@@ -54,7 +54,6 @@ void read_netlist(std::ifstream &ifs, std::vector<compBox>& vecComp, DAG& g){
     //NOTE: Port Pattern captures a subset from port_array_pattern.
     //Port Array Pattern must be checked first
     while(getline(ifs, line, ';')){
-        cout << (line);
         if(regex_match(line, port_array_pattern)){
             regex_search(line, sm, port_array_pattern);
             //Assign the matching
