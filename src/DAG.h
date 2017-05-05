@@ -7,8 +7,9 @@
 
 class node;
 
-enum NODE_T {IN,OUT,CELL, FFD,FFQ};
 extern std::string NODE_T_NAMES[];
+enum NODE_T {IN,OUT,CELL, FFD,FFQ};
+extern std::string PATH_NAMES[];
 enum PATH_T {NA = -1, IR, RR, RO, IO};
 
 PATH_T get_path_type(const std::string &s, const NODE_T& start_node_type, const NODE_T& end_node_type);

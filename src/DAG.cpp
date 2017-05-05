@@ -1,6 +1,7 @@
 #include "DAG.h"
 
-std::string NODE_T_NAMES []= {"I-R","R-R","R-O","I-O"};
+std::string NODE_T_NAMES []= {"IN","OUT","CELL","FFD","FFQ"};
+std::string PATH_NAMES []= {"I-R","R-R","R-O","I-O"};
 
 PATH_T get_path_type(const std::string &s, const NODE_T& start_node_type, const NODE_T& end_node_type)
 {

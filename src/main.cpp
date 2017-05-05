@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
 
     for (path &p: paths)
     {
-        cout << NODE_T_NAMES[p.pathtype] << "\t" << p.start->name << "\t";
+        cout << PATH_NAMES[p.pathtype] << "\t" << p.start->name << " (" << NODE_T_NAMES[p.start->type] << ")\t";
         for (const node *n:p.flow)
         {
-            cout << n->name << "\t";
+            cout << n->name << " (" << NODE_T_NAMES[n->type] << ")\t";
         }
         cout << endl;
     }
