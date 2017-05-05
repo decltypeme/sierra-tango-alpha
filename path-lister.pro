@@ -3,17 +3,17 @@ QT -= gui
 
 CONFIG += c++11
 
-TARGET = reporter
+TARGET = path-lister
 CONFIG += console
 CONFIG -= app_bundle
 
 TEMPLATE = app
 
 SOURCES += \
-    src/main.cpp \
     src/parser.cpp \
     src/DAG.cpp \
-    src/design_reporter.cpp
+    src/design_reporter.cpp \
+    src/path-lister.cpp
 
 DISTFILES += \
     lib/osu350.json \
@@ -34,7 +34,32 @@ DISTFILES += \
     tests/simpleI_R.netlist.v \
     tests/simpleR_O.netlist.v \
     tests/simpleR_R.netlist.v \
-    tests/test.netlist.v
+    tests/test.netlist.v \
+    bin/path-lister \
+    tests/path-lister.sh \
+    tests/paths/andingoring.netlist.v.path \
+    tests/paths/bits.netlist.v.path \
+    tests/paths/fourbitmux2X1ToRegToReg.netlist.v.path \
+    tests/paths/full_adder_1bit.netlist.v.path \
+    tests/paths/mux2_1.netlist.v.path \
+    tests/paths/mux4_1.netlist.v.path \
+    tests/paths/RtoR.netlist.v.path \
+    tests/paths/simpleI_R.netlist.v.path \
+    tests/paths/simpleR_O.netlist.v.path \
+    tests/paths/simpleR_R.netlist.v.path \
+    tests/paths/test.netlist.v.path \
+    tests/netlist/andingoring.netlist.v \
+    tests/netlist/bits.netlist.v \
+    tests/netlist/fourbitmux2X1ToRegToReg.netlist.v \
+    tests/netlist/full_adder_1bit.netlist.v \
+    tests/netlist/mux2_1.netlist.v \
+    tests/netlist/mux4_1.netlist.v \
+    tests/netlist/muxFollowedBy2DFFs.v \
+    tests/netlist/RtoR.netlist.v \
+    tests/netlist/simpleI_R.netlist.v \
+    tests/netlist/simpleR_O.netlist.v \
+    tests/netlist/simpleR_R.netlist.v \
+    tests/netlist/test.netlist.v
 
 HEADERS += \
     src/DAG.h \
