@@ -59,7 +59,8 @@ DISTFILES += \
     tests/netlist/simpleI_R.netlist.v \
     tests/netlist/simpleR_O.netlist.v \
     tests/netlist/simpleR_R.netlist.v \
-    tests/netlist/test.netlist.v
+    tests/netlist/test.netlist.v \
+    Makefile
 
 HEADERS += \
     src/DAG.h \
