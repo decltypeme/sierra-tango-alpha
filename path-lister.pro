@@ -101,4 +101,5 @@ HEADERS += \
     src/lib/rapidjson/schema.h \
     src/lib/rapidjson/stream.h \
     src/lib/rapidjson/stringbuffer.h \
-    src/lib/rapidjson/writer.h
+    src/lib/rapidjson/writer.h \
+    std_lib.h
