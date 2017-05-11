@@ -69,7 +69,7 @@ HEADERS += \
     src/cpm.h
 
 OBJECTS += \
-    src/libertyparser-1.0/src/liberty.o \
-    src/libertyparser-1.0/src/parser.o \
-    src/libertyparser-1.0/src/tokenizer.o \
-    src/libertyparser-1.0/src/utils.o
+    ../libertyparser-1.0/src/liberty.o \
+    ../libertyparser-1.0/src/parser.o \
+    ../libertyparser-1.0/src/tokenizer.o \
+    ../libertyparser-1.0/src/utils.o

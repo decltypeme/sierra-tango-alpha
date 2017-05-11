@@ -1,7 +1,17 @@
 #include "cpm.h"
+#include <vector>
 
-int main(int argc, char ** argv){
-    liberty::parse("~/workspace/lib/osu035.lib");
-    return 0;
+using namespace std;
+using namespace utils;
+using namespace liberty;
 
+
+int main(int argc, char ** argv)
+{
+    Library l = parse(argv[1]);
+    for(const Cell &c: l.getCells())
+    {
+        cout << c.getName()<<endl;
+    }
 }
+
