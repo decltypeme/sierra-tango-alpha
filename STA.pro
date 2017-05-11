@@ -3,7 +3,7 @@ QT -= gui
 
 CONFIG += c++11
 
-TARGET = path-lister
+TARGET = STA
 CONFIG += console
 CONFIG -= app_bundle
 
@@ -13,7 +13,7 @@ SOURCES += \
     src/parser.cpp \
     src/DAG.cpp \
     src/design_reporter.cpp \
-    src/path-lister.cpp
+    src/STA.cpp
 
 DISTFILES += \
     lib/osu350.json \
@@ -35,8 +35,8 @@ DISTFILES += \
     tests/simpleR_O.netlist.v \
     tests/simpleR_R.netlist.v \
     tests/test.netlist.v \
-    bin/path-lister \
-    tests/path-lister.sh \
+    bin/STA \
+    tests/STA.sh \
     tests/paths/andingoring.netlist.v.path \
     tests/paths/bits.netlist.v.path \
     tests/paths/fourbitmux2X1ToRegToReg.netlist.v.path \
