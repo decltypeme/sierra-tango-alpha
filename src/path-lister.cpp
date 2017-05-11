@@ -3,7 +3,7 @@
 #include <fstream>
 using namespace std;
 
-int main(int argc, char *argv[])
+int pseudomain(int argc, char *argv[])
 {
     DAG g;
     ifstream netlist;
@@ -39,4 +39,5 @@ int main(int argc, char *argv[])
         }
         out << endl;
     }
+    return 0;
 }

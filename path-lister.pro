@@ -12,7 +12,8 @@ TEMPLATE = app
 SOURCES += \
     src/parser.cpp \
     src/DAG.cpp \
-    src/path-lister.cpp
+    src/path-lister.cpp \
+    src/critical-path-finder.cpp
 
 DISTFILES += \
     lib/osu350.json \
@@ -66,3 +67,9 @@ HEADERS += \
     src/path_finding.h \
     src/netlist.h \
     src/parser.h
+
+OBJECTS += \
+    libertyparser-1.0/src/liberty.o \
+    libertyparser-1.0/src/parser.o \
+    libertyparser-1.0/src/tokenizer.o \
+    libertyparser-1.0/src/utils.o
