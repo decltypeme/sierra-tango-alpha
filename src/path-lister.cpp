@@ -39,4 +39,5 @@ int pseudomain(int argc, char *argv[])
         }
         out << endl;
     }
+    return 0;
 }

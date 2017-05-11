@@ -1,4 +1,4 @@
-#include "/home/hussam/Downloads/libertyparser-1.0/src/liberty.h"
+#include "libertyparser-1.0/src/liberty.h"
 #include <fstream>
 using namespace std;
 using namespace utils;
