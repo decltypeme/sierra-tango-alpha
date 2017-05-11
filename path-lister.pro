@@ -3,7 +3,7 @@ QT -= gui
 
 CONFIG += c++11
 
-TARGET = STA
+TARGET = path-lister
 CONFIG += console
 CONFIG -= app_bundle
 
@@ -12,8 +12,7 @@ TEMPLATE = app
 SOURCES += \
     src/parser.cpp \
     src/DAG.cpp \
-    src/design_reporter.cpp \
-    src/STA.cpp
+    src/path-lister.cpp
 
 DISTFILES += \
     lib/osu350.json \
@@ -35,8 +34,8 @@ DISTFILES += \
     tests/simpleR_O.netlist.v \
     tests/simpleR_R.netlist.v \
     tests/test.netlist.v \
-    bin/STA \
-    tests/STA.sh \
+    bin/path-lister \
+    tests/path-lister.sh \
     tests/paths/andingoring.netlist.v.path \
     tests/paths/bits.netlist.v.path \
     tests/paths/fourbitmux2X1ToRegToReg.netlist.v.path \
@@ -66,40 +65,4 @@ HEADERS += \
     src/DAG.h \
     src/path_finding.h \
     src/netlist.h \
-    src/parser.h \
-    src/lib/rapidjson/error/en.h \
-    src/lib/rapidjson/error/error.h \
-    src/lib/rapidjson/internal/biginteger.h \
-    src/lib/rapidjson/internal/diyfp.h \
-    src/lib/rapidjson/internal/dtoa.h \
-    src/lib/rapidjson/internal/ieee754.h \
-    src/lib/rapidjson/internal/itoa.h \
-    src/lib/rapidjson/internal/meta.h \
-    src/lib/rapidjson/internal/pow10.h \
-    src/lib/rapidjson/internal/regex.h \
-    src/lib/rapidjson/internal/stack.h \
-    src/lib/rapidjson/internal/strfunc.h \
-    src/lib/rapidjson/internal/strtod.h \
-    src/lib/rapidjson/internal/swap.h \
-    src/lib/rapidjson/msinttypes/inttypes.h \
-    src/lib/rapidjson/msinttypes/stdint.h \
-    src/lib/rapidjson/allocators.h \
-    src/lib/rapidjson/document.h \
-    src/lib/rapidjson/encodedstream.h \
-    src/lib/rapidjson/encodings.h \
-    src/lib/rapidjson/filereadstream.h \
-    src/lib/rapidjson/filewritestream.h \
-    src/lib/rapidjson/fwd.h \
-    src/lib/rapidjson/istreamwrapper.h \
-    src/lib/rapidjson/memorybuffer.h \
-    src/lib/rapidjson/memorystream.h \
-    src/lib/rapidjson/ostreamwrapper.h \
-    src/lib/rapidjson/pointer.h \
-    src/lib/rapidjson/prettywriter.h \
-    src/lib/rapidjson/rapidjson.h \
-    src/lib/rapidjson/reader.h \
-    src/lib/rapidjson/schema.h \
-    src/lib/rapidjson/stream.h \
-    src/lib/rapidjson/stringbuffer.h \
-    src/lib/rapidjson/writer.h \
-    std_lib.h
+    src/parser.h
