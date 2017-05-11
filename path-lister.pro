@@ -35,7 +35,7 @@ DISTFILES += \
     tests/simpleR_O.netlist.v \
     tests/simpleR_R.netlist.v \
     tests/test.netlist.v \
-    bin/path-lister \
+    bin/path-lister \/home/hussam/sierra-tango-alpha/libertyparser-1.0
     tests/path-lister.sh \
     tests/paths/andingoring.netlist.v.path \
     tests/paths/bits.netlist.v.path \
