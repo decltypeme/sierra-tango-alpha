@@ -141,7 +141,16 @@ DISTFILES += \
     src/libertyparser-1.0/src/Makefile.in \
     src/libertyparser-1.0/Makefile \
     src/libertyparser-1.0/Makefile.am \
-    src/libertyparser-1.0/Makefile.in
+    src/libertyparser-1.0/Makefile.in \
+    src/libertyparser-1.0/src/liberty.o \
+    src/libertyparser-1.0/src/parser.o \
+    src/libertyparser-1.0/src/tokenizer.o \
+    src/libertyparser-1.0/src/utils.o \
+    src/libertyparser-1.0/src/libLibertyParser.la \
+    src/libertyparser-1.0/src/liberty.lo \
+    src/libertyparser-1.0/src/parser.lo \
+    src/libertyparser-1.0/src/tokenizer.lo \
+    src/libertyparser-1.0/src/utils.lo
 
 HEADERS += \
     src/DAG.h \
