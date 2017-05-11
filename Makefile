@@ -4,8 +4,8 @@ COMPILER=g++
 reporter: src/design_reporter.cpp
 	mkdir -p bin && $(COMPILER) src/design_reporter.cpp $(CPPFLAGS) -o bin/reporter.o
 
-STA: src/*.cpp
-	mkdir -p bin && $(COMPILER) src/DAG.cpp src/parser.cpp src/STA.cpp $(CPPFLAGS) -o bin/STA
+path-lister: src/path-lister.cpp src/DAG.cpp src/parser.cpp
+	mkdir -p bin && $(COMPILER) src/DAG.cpp src/parser.cpp src/path-lister.cpp $(CPPFLAGS) -o bin/path-lister
 
 clean:
 	rm bin/*
