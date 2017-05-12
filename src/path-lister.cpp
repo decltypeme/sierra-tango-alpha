@@ -3,7 +3,7 @@
 #include <fstream>
 using namespace std;
 
-int pathlister(int argc, char *argv[])
+void pathlister(int argc, char *argv[])
 {
     DAG g;
     ifstream netlist;
@@ -39,5 +39,4 @@ int pathlister(int argc, char *argv[])
         }
         out << endl;
     }
-    return 0;
 }

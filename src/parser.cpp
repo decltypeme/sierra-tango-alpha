@@ -40,6 +40,7 @@ void process_port_array(NODE_T node_type, string port_name, DAG& g, int start, i
 
 void process_port(NODE_T node_type, string port_name, DAG& g){
     g.nodes.push_back(node(port_name, node_type));
+    g.join("START_"+port_name,"START",port_name);
 }
 
 
