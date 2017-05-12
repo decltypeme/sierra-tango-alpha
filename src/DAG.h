@@ -36,6 +36,7 @@ public:
     std::string name;
     NODE_T type;
     std::vector<edge> edges;
+    std::vector<delay_t> AAT_list;
     delay_t AAT;
     delay_t input_transition_time;
 };
