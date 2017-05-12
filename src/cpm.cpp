@@ -33,7 +33,7 @@ delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_
 
 delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
 {
-    if (cell_type == "clk") return 0;
+    if (cell_type == "clk" || cell_type == "START") return 0;
     else
     {
         Cell c = l.getCell(cell_type);
@@ -60,7 +60,7 @@ delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t outp
 
 cap_t get_input_pin_cap(string cell_type, const Library &l)
 {
-    if (cell_type == "clk") return 0;
+    if (cell_type == "clk" || cell_type == "START") return 0;
     else
     {
         Cell c = l.getCell(cell_type);
