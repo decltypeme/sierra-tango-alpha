@@ -3,7 +3,7 @@
 #include <fstream>
 using namespace std;
 
-int pseudomain(int argc, char *argv[])
+int pathlister(int argc, char *argv[])
 {
     DAG g;
     ifstream netlist;

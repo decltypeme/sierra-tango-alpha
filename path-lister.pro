@@ -13,7 +13,9 @@ SOURCES += \
     src/parser.cpp \
     src/DAG.cpp \
     src/path-lister.cpp \
-    src/cpm.cpp
+    src/cpm.cpp \
+    src/main.cpp \
+    src/netlist.cpp
 
 DISTFILES += \
     lib/osu350.lib \
