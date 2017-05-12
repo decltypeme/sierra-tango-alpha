@@ -1,6 +1,6 @@
 #include "DAG.h"
 
-std::string NODE_T_NAMES []= {"IN","OUT","CELL","FFD","FFQ"};
+std::string NODE_T_NAMES []= {"IN","OUT","CELL","FFD","FFQ","START"};
 std::string PATH_NAMES []= {"I-R","R-R","R-O","I-O"};
 
 PATH_T get_path_type(const std::string &s, const NODE_T& start_node_type, const NODE_T& end_node_type)
@@ -14,4 +14,28 @@ PATH_T get_path_type(const std::string &s, const NODE_T& start_node_type, const 
     else if(start_node_type == IN && end_node_type == OUT)
         return IO;
     else return NA;
+}
+
+DAG::DAG()
+{
+    nodes.push_back(node("START",START));
+}
+
+DAG::~DAG(){}
+
+node* DAG::getNodeByName(std::string NodeName) {
+    for(node &n:nodes)
+    {
+        if(n.name==NodeName)
+            return &n;
+    }
+    return nullptr;
+}
+void DAG::join(std::string edgeName, std::string n1,std::string n2){
+
+    node *n1_n= getNodeByName(n1);
+    node *n2_n= getNodeByName(n2);
+    n1_n->edges.push_back(edge(edgeName,*n2_n));
+
+
 }
