@@ -20,11 +20,11 @@ PATH_T get_path_type(const std::string &s, const NODE_T& start_node_type, const 
 class edge
 {
 public:
-    edge(const std::string &name, const node &n):name(name),n(&n){}
+    edge(const std::string &name, node &n):name(name),n(&n){}
     ~edge(){}
     std::string name;
     cap_t net_capacitence;
-    const node* n;
+    node* n;
 };
 
 
@@ -35,10 +35,13 @@ public:
     ~node(){}
     std::string name;
     NODE_T type;
+    std::string cell_type;
     std::vector<edge> edges;
-    std::vector<delay_t> AAT_list;
+    cap_t output_cap;
+    std::vector<cap_t> output_cap_list;
     delay_t AAT;
     delay_t input_transition_time;
+    std::vector<delay_t> input_transition_time_list;
 };
 
 class DAG
