@@ -37,13 +37,13 @@ void DAG::join(std::string edgeName, std::string n1,std::string n2, std::string 
     node *n1_n= getNodeByName(n1);
     node *n2_n= getNodeByName(n2);
    //add cap
-    //auto cap =cap_map.find(netName) //*
-    // if(cap != example.end()) {
-       // n1_n->edges.push_back(edge(edgeName,*n2_n,cap->second));
-  //  }
-    // else
+    auto cap =cap_map.find(netName) //*
+    if(cap != example.end()) {
+        n1_n->edges.push_back(edge(edgeName,*n2_n,cap->second));
+    }
+    // // else
     
-    n1_n->edges.push_back(edge(edgeName,*n2_n));
+    // n1_n->edges.push_back(edge(edgeName,*n2_n));
 
 
 }
