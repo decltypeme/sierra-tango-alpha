@@ -2,23 +2,28 @@
 #define NETLIST_H
 #include "parser.h"
 
+
+//TODO: For all joins, add information about the net capacitance
+
 bool isFF(std::string s)
 {
     return (s.find("DFF") == 0);
 }
 
-void fill_DAG(DAG &g)
+void fill_DAG(DAG &g, const cap_map_t&)
 {
     for( compBox &c: vecComp)
     {
         if (isFF(c.type))
         {
+            //TODO: Add Cell Type Information for both the D and Q pins: Both are the same
             g.nodes.push_back(node("d_"+c.name,FFD));
             g.nodes.push_back(node("q_"+c.name,FFQ));
             g.join("clk_q_"+c.name,"clk","q_"+c.name);
         }
         else
         {
+            //TODO: Add Cell Type Inormation using the new constructor signature
             g.nodes.push_back(node(c.name,CELL));
         }
     }

@@ -10,6 +10,8 @@ class node;
 typedef float cap_t;
 typedef float delay_t;
 
+typedef unordered_map<string, cap_t> cap_map_t;        //The capacitance list is a hashmap of the net name and the capacitance value
+
 extern std::string NODE_T_NAMES[];
 enum NODE_T {IN,OUT,CELL, FFD,FFQ,START};
 extern std::string PATH_NAMES[];
@@ -31,7 +33,9 @@ public:
 class node
 {
 public:
+    //TODO: Overload(or update) the constructor format in .h file and .cpp file
     node(const std::string &name, const NODE_T &type): name(name), type(type){}
+    node(const std::string &name, const NODE_T &type, const string& cell_type): name(name), type(type), cell_type(cell_type){}
     ~node(){}
     std::string name;
     NODE_T type;

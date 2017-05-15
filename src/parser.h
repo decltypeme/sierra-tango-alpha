@@ -5,6 +5,7 @@
 #include <utility>
 #include <regex>
 #include <string>
+#include <unordered_map>
 #include "DAG.h"
 
 struct pin{std::string pinName; std::string pinConn; };
