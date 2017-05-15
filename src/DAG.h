@@ -30,6 +30,7 @@ public:
     //ToDO: pin/net name 
     std::string name;
     cap_t net_capacitence;
+     cap_t wire_Cap;
     node* n;
 };
 
@@ -38,7 +39,7 @@ class node
 {
 public:
     node(const std::string &name, const NODE_T &type): name(name), type(type){}
-    node(const std::string &name, const NODE_T &type, const string& cell_type): name(name), type(type), cell_type(cell_type){}
+    node(const std::string &name, const NODE_T &type, const std::string& cell_type): name(name), type(type), cell_type(cell_type){}
     ~node(){}
     std::string name;
     NODE_T type;
