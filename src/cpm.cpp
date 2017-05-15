@@ -1,9 +1,13 @@
-#include "cpm.h"
+#include <vector>
 #include <algorithm>
 #include <string>
+
+#include "cpm.h"
+#include "netlist.h"
 using namespace std;
 using namespace utils;
 using namespace liberty;
+
 
 delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
 {
@@ -93,5 +97,15 @@ void put_AAT(const Library &l, DAG &g)
     }
 }
 
+int main(int argc, char ** argv)
+{
+    DAG g;
+    ifstream netlist;
 
+    netlist.open(argv[1], std::ifstream::in);
+    parse_netlist(netlist,g);
 
+    Library l = parse(argv[2]);
+    put_AAT(l,g);
+
+}

@@ -1,7 +1,7 @@
 CPPFLAGS=-std=c++11
 COMPILER=g++
-LIBERTYFLAGS=-I ../libertyparser-1.0/src 
-LIBERTYLIB= ../libertyparser-1.0/src/*.o
+LIBERTYFLAGS=-I libertyparser-1.0/src 
+LIBERTYLIB= libertyparser-1.0/src/*.o
 
 reporter: src/design_reporter.cpp
 	mkdir -p bin && $(COMPILER) src/design_reporter.cpp $(CPPFLAGS) -o bin/reporter.o
