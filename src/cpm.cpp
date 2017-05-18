@@ -104,12 +104,13 @@ int main(int argc, char ** argv)
     DAG g;
     ifstream netlist;
 	ifstream caplist;
-	ifstream timinglist;
 
-    netlist.open(argv[1], std::ifstream::in);
-    parse_netlist(netlist,g);
+    netlist.open(argv[2], std::ifstream::in);
+	caplist.open(argv[3], std::ifstream::in);
+    parse_netlist(netlist,caplist,g);
 
-    Library l = parse(argv[2]);
+    Library l = parse(argv[1]);
     put_AAT(l,g);
+	vector<node> critical = getCriticalPath(g);
 
 }
