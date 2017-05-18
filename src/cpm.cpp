@@ -103,6 +103,8 @@ int main(int argc, char ** argv)
 {
     DAG g;
     ifstream netlist;
+	ifstream caplist;
+	ifstream timinglist;
 
     netlist.open(argv[1], std::ifstream::in);
     parse_netlist(netlist,g);
