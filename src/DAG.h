@@ -24,8 +24,8 @@ class edge
 {
 public:
     //TODO: overload the constructor to pass the net capacitance  
-    edge(const std::string &name, node &n):name(name),n(&n){}
-    edge(const std::string &name, node &n, cap_t &net_capacitance):name(name),n(&n),net_capacitance(net_capacitance){}
+    edge(const std::string &name, node *n):name(name),n(n){}
+    edge(const std::string &name, node *n, cap_t &net_capacitance):name(name),n(n),net_capacitance(net_capacitance){}
 
     ~edge(){}
     //ToDO: pin/net name 

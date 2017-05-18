@@ -8,10 +8,9 @@ using namespace std;
 using namespace utils;
 using namespace liberty;
 
-
 delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
 {
-    if (cell_type == "") return 0;
+    if (cell_type.empty()) return 0;
     else
     {
         Cell c = l.getCell(cell_type);
@@ -37,7 +36,7 @@ delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_
 
 delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
 {
-    if (cell_type == "") return 0;
+    if (cell_type.empty()) return 0;
     else
     {
         Cell c = l.getCell(cell_type);
@@ -64,7 +63,7 @@ delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t outp
 
 cap_t get_input_pin_cap(string cell_type, const Library &l)
 {
-    if (cell_type == "") return 0;
+    if (cell_type.empty()) return 0;
     else
     {
         Cell c = l.getCell(cell_type);
@@ -83,7 +82,10 @@ void put_AAT(const Library &l, DAG &g)
 
     for(node &_n:g.nodes)
     {
-        _n.input_transition_time=*max_element(_n.input_transition_time_list.begin(),_n.input_transition_time_list.end());
+        if (max_element(_n.input_transition_time_list.begin(),_n.input_transition_time_list.end())!=_n.input_transition_time_list.end())
+            _n.input_transition_time=*max_element(_n.input_transition_time_list.begin(),_n.input_transition_time_list.end());
+        else
+            _n.input_transition_time=0;
 
         for(edge &_e:_n.edges)
         {
@@ -92,7 +94,10 @@ void put_AAT(const Library &l, DAG &g)
             delay_t transition_time = get_transtion_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
             (_e.n->input_transition_time_list).push_back(transition_time);
         }
-        _n.output_cap=*max_element(_n.output_cap_list.begin(),_n.output_cap_list.end());
+        if(max_element(_n.output_cap_list.begin(),_n.output_cap_list.end())!=_n.output_cap_list.end())
+            _n.output_cap=*max_element(_n.output_cap_list.begin(),_n.output_cap_list.end());
+        else
+            _n.output_cap=0;
         //unordered_map<string, cap_t> 
         //cap_map_t
         _n.cell_delay=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);

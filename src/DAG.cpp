@@ -36,13 +36,16 @@ void DAG::join(std::string edgeName, std::string n1,std::string n2){
 
     node *n1_n= getNodeByName(n1);
     node *n2_n= getNodeByName(n2);
+    if(n1_n == nullptr || n2_n == nullptr){
+        throw(std::string("one of the calls to getNodeByName returned a nullptr"));
+    }
    //add cap
 	auto cap = cap_map.find(edgeName); //*
     if(cap != cap_map.end()) {
-        n1_n->edges.push_back(edge(edgeName,*n2_n,cap->second));
+        n1_n->edges.push_back(edge(edgeName,n2_n,cap->second));
     }
 	else
 	{
-		n1_n->edges.push_back(edge(edgeName, *n2_n));
+        n1_n->edges.push_back(edge(edgeName, n2_n));
 	}
 }
