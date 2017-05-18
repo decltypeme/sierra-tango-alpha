@@ -11,7 +11,7 @@ using namespace liberty;
 
 delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
 {
-    if (cell_type == "clk" || cell_type == "START") return 0;
+    if (cell_type == "") return 0;
     else
     {
         Cell c = l.getCell(cell_type);
@@ -37,7 +37,7 @@ delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_
 
 delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
 {
-    if (cell_type == "clk" || cell_type == "START") return 0;
+    if (cell_type == "") return 0;
     else
     {
         Cell c = l.getCell(cell_type);
@@ -64,7 +64,7 @@ delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t outp
 
 cap_t get_input_pin_cap(string cell_type, const Library &l)
 {
-    if (cell_type == "clk" || cell_type == "START") return 0;
+    if (cell_type == "") return 0;
     else
     {
         Cell c = l.getCell(cell_type);
@@ -87,7 +87,7 @@ void put_AAT(const Library &l, DAG &g)
 
         for(edge &_e:_n.edges)
         {
-            cap_t output_cap = get_input_pin_cap(_e.n->cell_type,l) + _e.net_capacitence;
+            cap_t output_cap = get_input_pin_cap(_e.n->cell_type,l) + _e.net_capacitance;
             _n.output_cap_list.push_back(output_cap);
             delay_t transition_time = get_transtion_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
             (_e.n->input_transition_time_list).push_back(transition_time);
@@ -95,7 +95,7 @@ void put_AAT(const Library &l, DAG &g)
         _n.output_cap=*max_element(_n.output_cap_list.begin(),_n.output_cap_list.end());
         //unordered_map<string, cap_t> 
         //cap_map_t
-        _n.AAT=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
+        _n.cell_delay=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
     }
 }
 
