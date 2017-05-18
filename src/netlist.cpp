@@ -1,6 +1,7 @@
 #ifndef NETLIST_H
 #define NETLIST_H
 #include "parser.h"
+#include "netlist.h"
 
 
 
@@ -9,7 +10,7 @@ bool isFF(std::string s)
     return (s.find("DFF") == 0);
 }
 
-void fill_DAG(DAG &g, const cap_map_t&)
+void fill_DAG(DAG &g)
 {
     for( compBox &c: vecComp)
     {
@@ -120,10 +121,16 @@ void fill_DAG(DAG &g, const cap_map_t&)
     }
 }
 
-void parse_netlist(std::ifstream &ifs, DAG &g)
+void read_caplist(std::ifstream &caplist, cap_map_t cap_map)
 {
-    read_netlist(ifs, vecComp, g);
-    fill_DAG(g);
+
+};
+
+void parse_netlist(std::ifstream &netlist, std::ifstream &caplist, DAG &g)
+{
+    read_netlist(netlist, vecComp, g);
+	read_caplist(caplist, g.cap_map);
+	fill_DAG(g);
 }
 
 

@@ -99,6 +99,11 @@ void put_AAT(const Library &l, DAG &g)
     }
 }
 
+vector<node>getCriticalPath(const DAG &g)
+{
+	return vector<node>();
+}
+
 int main(int argc, char ** argv)
 {
     DAG g;

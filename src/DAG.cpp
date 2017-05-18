@@ -32,12 +32,12 @@ node* DAG::getNodeByName(std::string NodeName) {
     return nullptr;
 }
 //TODO: Add the capacitance as optiona parameter to the function join
-void DAG::join(std::string edgeName, std::string n1,std::string n2, std::string netName){
+void DAG::join(std::string edgeName, std::string n1,std::string n2){
 
     node *n1_n= getNodeByName(n1);
     node *n2_n= getNodeByName(n2);
    //add cap
-	auto cap = cap_map.find(netName); //*
+	auto cap = cap_map.find(edgeName); //*
     if(cap != cap_map.end()) {
         n1_n->edges.push_back(edge(edgeName,*n2_n,cap->second));
     }

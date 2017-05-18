@@ -63,7 +63,7 @@ public:
     //TODO: change function to get cap from hashedMap
     cap_map_t cap_map;
     //TODO: get net name to join nodes 
-    void join(std::string edgeName, std::string n1,std::string n2, std:: string netName);
+    void join(std::string edgeName, std::string n1,std::string n2);
 };
 
 #endif
