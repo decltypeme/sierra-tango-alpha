@@ -123,12 +123,31 @@ void fill_DAG(DAG &g)
 
 void read_caplist(std::ifstream &caplist, cap_map_t cap_map)
 {
+    string netname;
+    cap_t  capvalue;
+    
+    if(caplist.is_open())
+    {
+        while(!caplist.eof())
+        {
+            caplist>>netname;
+            caplist>>capvalue;
+            cap_map.insert({netname,capvalue});
+            
+  
+        }
+       // caplist.close();
+
+    }
+    
 
 };
 
 void parse_netlist(std::ifstream &netlist, std::ifstream &caplist, DAG &g)
 {
     read_netlist(netlist, vecComp, g);
+    //open caplist fstream before passing !!
+    //close afterwards
 	read_caplist(caplist, g.cap_map);
 	fill_DAG(g);
 }
