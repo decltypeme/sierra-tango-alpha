@@ -4,13 +4,14 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 class node;
 
 typedef float cap_t;
 typedef float delay_t;
 
-typedef unordered_map<string, cap_t> cap_map_t;        //The capacitance list is a hashmap of the net name and the capacitance value
+typedef std::unordered_map<std::string, cap_t> cap_map_t;        //The capacitance list is a hashmap of the net name and the capacitance value
 
 extern std::string NODE_T_NAMES[];
 enum NODE_T {IN,OUT,CELL, FFD,FFQ,START};
