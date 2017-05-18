@@ -41,9 +41,8 @@ void DAG::join(std::string edgeName, std::string n1,std::string n2){
     if(cap != cap_map.end()) {
         n1_n->edges.push_back(edge(edgeName,*n2_n,cap->second));
     }
-    // // else
-    
-    // n1_n->edges.push_back(edge(edgeName,*n2_n));
-
-
+	else
+	{
+		n1_n->edges.push_back(edge(edgeName, *n2_n));
+	}
 }

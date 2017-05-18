@@ -2,8 +2,9 @@
 #define NETLIST_H
 #include "parser.h"
 #include "netlist.h"
+#include <string>
 
-
+using namespace std;
 
 bool isFF(std::string s)
 {
@@ -20,7 +21,7 @@ void fill_DAG(DAG &g)
             g.nodes.push_back(node("d_"+c.name,FFD,c.type));
             g.nodes.push_back(node("q_"+c.name,FFQ,c.type));
             
-            g.join("clk_q_"+c.name,"clk","q_"+c.name);
+            g.join("clk","clk","q_"+c.name);
         }
         else
         {
@@ -43,13 +44,13 @@ void fill_DAG(DAG &g)
                         if (isFF(d.type))
                         {
                             //updated 
-                            g.join("in_"+n.name,n.name,"d_"+d.name,ipin.pinName);
+                            g.join(n.name,n.name,"d_"+d.name);
                         }
                         else
                         {
                              //updated 
 
-                            g.join("in_"+n.name,n.name,d.name,ipin.pinName);
+                            g.join(n.name,n.name,d.name);
                         }
                     }
 
@@ -58,7 +59,7 @@ void fill_DAG(DAG &g)
         }
     }
 //component connected to another component
-// different join ?!!
+
     for( compBox &c: vecComp)
     {
         for(pin &opin:c.outputs )
@@ -74,12 +75,12 @@ void fill_DAG(DAG &g)
                             if (isFF(d.type))
                             {
                                
-                                g.join(ipin.pinConn,"q_"+c.name,"d_"+d.name,,ipin.pinName,ipin.pinName);//updated 
+                                g.join(ipin.pinConn,"q_"+c.name,"d_"+d.name);//updated 
                             }
                             else //first component is a gate not FF
                             {
                                 
-                                g.join(ipin.pinConn,"q_"+c.name,d.name,ipin.pinName); //updated 
+                                g.join(ipin.pinConn,"q_"+c.name,d.name); //updated 
                             }
                         }
                         else //second component is a gate not FF
@@ -87,12 +88,12 @@ void fill_DAG(DAG &g)
                             if (isFF(d.type)) //first component is  FF
                             {
                              
-                                g.join(ipin.pinConn,c.name,"d_"+d.name,ipin.pinName); //updated 
+                                g.join(ipin.pinConn,c.name,"d_"+d.name); //updated 
                             }
                             else //first component is a gate not FF
                             {
                                 
-                                g.join(ipin.pinConn,c.name,d.name,ipin.pinName); //updated 
+                                g.join(ipin.pinConn,c.name,d.name); //updated 
                             }
                         }
 
@@ -100,16 +101,16 @@ void fill_DAG(DAG &g)
                 }
             }
             //component connected to output node
-            for( node &n: g.nodes)
+            for( node &d: g.nodes)
             {
-                if (n.type== OUT)
+                if (d.type== OUT)
                 {
-                    if(opin.pinConn==n.name)
+                    if(opin.pinConn==d.name)
                     {
                         if (isFF(c.type))
-                            g.join(opin.pinConn,"q_"+c.name,n.name,opin.pinName); //updated 
+                            g.join(opin.pinConn,"q_"+c.name,d.name); //updated 
                         else
-                            g.join(opin.pinConn,c.name,n.name,opin.pinName); //updated 
+                            g.join(opin.pinConn,c.name,d.name); //updated 
                     }
 
                 }
@@ -121,7 +122,7 @@ void fill_DAG(DAG &g)
     }
 }
 
-void read_caplist(std::ifstream &caplist, cap_map_t cap_map)
+void read_caplist(std::ifstream &caplist, cap_map_t &cap_map)
 {
     string netname;
     cap_t  capvalue;
@@ -145,10 +146,10 @@ void read_caplist(std::ifstream &caplist, cap_map_t cap_map)
 
 void parse_netlist(std::ifstream &netlist, std::ifstream &caplist, DAG &g)
 {
-    read_netlist(netlist, vecComp, g);
+	read_caplist(caplist, g.cap_map);
+	read_netlist(netlist, vecComp, g);
     //open caplist fstream before passing !!
     //close afterwards
-	read_caplist(caplist, g.cap_map);
 	fill_DAG(g);
 }
 
