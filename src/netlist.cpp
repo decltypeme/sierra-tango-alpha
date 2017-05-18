@@ -3,7 +3,6 @@
 #include "parser.h"
 
 
-//TODO: For all joins, add information about the net capacitance
 
 bool isFF(std::string s)
 {
@@ -16,18 +15,20 @@ void fill_DAG(DAG &g, const cap_map_t&)
     {
         if (isFF(c.type))
         {
-            //TODO: Add Cell Type Information for both the D and Q pins: Both are the same
-            g.nodes.push_back(node("d_"+c.name,FFD));
-            g.nodes.push_back(node("q_"+c.name,FFQ));
+            //DONE: Add Cell Type Information for both the D and Q pins: Both are the same
+            g.nodes.push_back(node("d_"+c.name,FFD,c.type));
+            g.nodes.push_back(node("q_"+c.name,FFQ,c.type));
+            
             g.join("clk_q_"+c.name,"clk","q_"+c.name);
         }
         else
         {
-            //TODO: Add Cell Type Inormation using the new constructor signature
-            g.nodes.push_back(node(c.name,CELL));
+            //DONE: Add Cell Type Inormation using the new constructor signature
+            
+            g.nodes.push_back(node(c.name,CELL,c.type));
         }
     }
-
+//input connected to componet
     for( node &n: g.nodes)
     {
         if (n.type== IN && n.name != "clk")
@@ -40,11 +41,14 @@ void fill_DAG(DAG &g, const cap_map_t&)
                     {
                         if (isFF(d.type))
                         {
-                            g.join("in_"+n.name,n.name,"d_"+d.name);
+                            //updated 
+                            g.join("in_"+n.name,n.name,"d_"+d.name,ipin.pinName);
                         }
                         else
                         {
-                            g.join("in_"+n.name,n.name,d.name);
+                             //updated 
+
+                            g.join("in_"+n.name,n.name,d.name,ipin.pinName);
                         }
                     }
 
@@ -52,7 +56,8 @@ void fill_DAG(DAG &g, const cap_map_t&)
             }
         }
     }
-
+//component connected to another component
+// different join ?!!
     for( compBox &c: vecComp)
     {
         for(pin &opin:c.outputs )
@@ -60,35 +65,40 @@ void fill_DAG(DAG &g, const cap_map_t&)
             for( compBox &d: vecComp)
             {
                 for(pin &ipin:d.inputs)
-                {
+                { 
                     if(ipin.pinConn==opin.pinConn)
-                    {
+                    {   //second component is FF
                         if (isFF(c.type))
-                        {
+                        { //first component is FF
                             if (isFF(d.type))
                             {
-                                g.join(ipin.pinConn,"q_"+c.name,"d_"+d.name);
+                               
+                                g.join(ipin.pinConn,"q_"+c.name,"d_"+d.name,,ipin.pinName,ipin.pinName);//updated 
                             }
-                            else
+                            else //first component is a gate not FF
                             {
-                                g.join(ipin.pinConn,"q_"+c.name,d.name);
+                                
+                                g.join(ipin.pinConn,"q_"+c.name,d.name,ipin.pinName); //updated 
                             }
                         }
-                        else
+                        else //second component is a gate not FF
                         {
-                            if (isFF(d.type))
+                            if (isFF(d.type)) //first component is  FF
                             {
-                                g.join(ipin.pinConn,c.name,"d_"+d.name);
+                             
+                                g.join(ipin.pinConn,c.name,"d_"+d.name,ipin.pinName); //updated 
                             }
-                            else
+                            else //first component is a gate not FF
                             {
-                                g.join(ipin.pinConn,c.name,d.name);
+                                
+                                g.join(ipin.pinConn,c.name,d.name,ipin.pinName); //updated 
                             }
                         }
 
                     }
                 }
             }
+            //component connected to output node
             for( node &n: g.nodes)
             {
                 if (n.type== OUT)
@@ -96,9 +106,9 @@ void fill_DAG(DAG &g, const cap_map_t&)
                     if(opin.pinConn==n.name)
                     {
                         if (isFF(c.type))
-                            g.join(opin.pinConn,"q_"+c.name,n.name);
+                            g.join(opin.pinConn,"q_"+c.name,n.name,opin.pinName); //updated 
                         else
-                            g.join(opin.pinConn,c.name,n.name);
+                            g.join(opin.pinConn,c.name,n.name,opin.pinName); //updated 
                     }
 
                 }

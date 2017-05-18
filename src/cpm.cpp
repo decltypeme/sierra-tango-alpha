@@ -93,6 +93,8 @@ void put_AAT(const Library &l, DAG &g)
             (_e.n->input_transition_time_list).push_back(transition_time);
         }
         _n.output_cap=*max_element(_n.output_cap_list.begin(),_n.output_cap_list.end());
+        //unordered_map<string, cap_t> 
+        //cap_map_t
         _n.AAT=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
     }
 }

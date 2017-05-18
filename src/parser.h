@@ -6,6 +6,7 @@
 #include <regex>
 #include <string>
 #include <unordered_map>
+#include <sstream>
 #include "DAG.h"
 
 struct pin{std::string pinName; std::string pinConn; };
