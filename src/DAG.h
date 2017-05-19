@@ -7,6 +7,7 @@
 #include <unordered_map>
 
 class node;
+class DAG;
 
 typedef float cap_t;
 typedef float delay_t;
@@ -24,14 +25,14 @@ class edge
 {
 public:
     //TODO: overload the constructor to pass the net capacitance  
-    edge(const std::string &name, node *n):name(name),n(n){}
-    edge(const std::string &name, node *n, cap_t &net_capacitance):name(name),n(n),net_capacitance(net_capacitance){}
+    edge(const std::string &_name, const std::string &_n):name(_name),n(_n){}
+    edge(const std::string &_name, const std::string &_n, cap_t &_net_capacitance):name(_name),n(_n),net_capacitance(_net_capacitance){}
 
     ~edge(){}
     //ToDO: pin/net name 
     std::string name;
     cap_t net_capacitance;
-    node* n;
+    std::string n;
 };
 
 
@@ -39,14 +40,14 @@ class node
 {
 public:
     node(const std::string &name, const NODE_T &type): name(name), type(type){}
-    node(const std::string &name, const NODE_T &type, const std::string& cell_type): name(name), type(type), cell_type(cell_type){}
+    node(const std::string &name, const NODE_T &type, const std::string& cell_type):
+       name(name), type(type), cell_type(cell_type){}
     ~node(){}
     std::string name;
     NODE_T type;
     std::string cell_type;
     std::vector<edge> edges;
     cap_t output_cap;
-    std::vector<cap_t> output_cap_list;
     delay_t cell_delay;
     delay_t input_transition_time;
     std::vector<delay_t> input_transition_time_list;

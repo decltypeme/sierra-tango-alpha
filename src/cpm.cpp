@@ -79,25 +79,19 @@ cap_t get_input_pin_cap(string cell_type, const Library &l)
 
 void put_AAT(const Library &l, DAG &g)
 {
-
     for(node &_n:g.nodes)
     {
         if (max_element(_n.input_transition_time_list.begin(),_n.input_transition_time_list.end())!=_n.input_transition_time_list.end())
             _n.input_transition_time=*max_element(_n.input_transition_time_list.begin(),_n.input_transition_time_list.end());
         else
-            _n.input_transition_time=0;
-
+            _n.input_transition_time=0;         //Means this is the first node (start)
+        _n.output_cap = 0;
         for(edge &_e:_n.edges)
         {
-            cap_t output_cap = get_input_pin_cap(_e.n->cell_type,l) + _e.net_capacitance;
-            _n.output_cap_list.push_back(output_cap);
+            _n.output_cap += (get_input_pin_cap(g.getNodeByName(_e.n)->cell_type,l) + _e.net_capacitance);
             delay_t transition_time = get_transtion_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
-            (_e.n->input_transition_time_list).push_back(transition_time);
+            (g.getNodeByName(_e.n)->input_transition_time_list).push_back(transition_time);
         }
-        if(max_element(_n.output_cap_list.begin(),_n.output_cap_list.end())!=_n.output_cap_list.end())
-            _n.output_cap=*max_element(_n.output_cap_list.begin(),_n.output_cap_list.end());
-        else
-            _n.output_cap=0;
         //unordered_map<string, cap_t> 
         //cap_map_t
         _n.cell_delay=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
