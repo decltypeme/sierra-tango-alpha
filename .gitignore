@@ -31,9 +31,9 @@
 *.out
 *.app
 
-!lib/
+!lib/*.lib
 *.*~
 libertyparser-1.0/
 sierra-tango-alpha/
 .vs/
-build-sierra-tango-alpha-Desktop_Qt_5_7_0_GCC_64bit-Debug/
+build*/
