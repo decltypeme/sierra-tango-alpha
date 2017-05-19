@@ -31,8 +31,8 @@
 *.out
 *.app
 
+!lib/
 *.*~
-
 libertyparser-1.0/
 sierra-tango-alpha/
 .vs/
