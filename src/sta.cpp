@@ -1,0 +1,56 @@
+#include "cpm.h"
+#include "netlist.h"
+#include "DAG.h"
+#include <fstream>
+
+using namespace std;
+
+bool assert_stream_working(ofstream& st){
+  if(st.fail() || !st.is_open()){
+    cerr << "Stream Failed" << endl;
+    exit(EXIT_FAILURE);
+  }
+}
+
+bool assert_stream_working(ifstream& st){
+  if(st.fail() || !st.is_open()){
+    cerr << "Stream Failed" << endl;
+    exit(EXIT_FAILURE);
+  }
+}
+
+int main(int argc, char** argv){
+  //Parse the Libert File
+  Library l = parse(argv[1]);
+  DAG g;
+  delay_t clk_time, setup_time, hold_time, skew_time;
+  //Open Input File Streams
+  ifstream netlist_stream(argv[2]);
+  ifstream cap_stream(argv[3]);
+  ifstream constraint_stream(argv[4]);
+  ifstream clk_stream(argv[5]);
+
+  //Open Output File Streams
+  ofstream path_report_stream(argv[6]);
+
+  //Assert all streams are successful
+  assert_stream_working(netlist_stream);
+  assert_stream_working(cap_stream);
+  assert_stream_working(constraint_stream);
+  assert_stream_working(clk_stream);
+  assert_stream_working(path_report_stream);
+
+
+  parse_netlist(netlist_stream, cap_stream,constraint_stream, clk_stream, g);
+  vector<path> all_paths = get_paths_graph(g);
+  analyzePrintPathReports(l, g, all_paths, path_report_stream);
+
+  //path critical = getCriticalPath(g);
+
+  //Close all streams
+  netlist_stream.close();
+  cap_stream.close();
+  constraint_stream.close();
+  clk_stream.close();
+  path_report_stream.close();
+}

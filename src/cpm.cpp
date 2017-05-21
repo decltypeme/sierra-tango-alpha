@@ -4,6 +4,8 @@
 
 #include "cpm.h"
 #include "netlist.h"
+#include "../libertyparser-1.0/src/liberty.h"
+
 using namespace std;
 using namespace utils;
 using namespace liberty;
@@ -20,7 +22,7 @@ delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_
         {
             if(p.getDirection())
             {
-                
+
                 //transistion time is max of rise and fall
                 delay_t value;
                 vector<Timing> tables = p.getTiming();
@@ -97,39 +99,39 @@ void print_node_report(ostream& outs, node* node_report_ptr, delay_t path_delay_
     cout << "Pin \t\t\t" << node_report_ptr->type << " \t\t\t" << node_report_ptr->node_delay << "\t\t\t" << path_delay_so_far << "\t\t\t " << endl;
 }
 
-
 /**
  * Return path delay
  * IMPORTANT: WHEN USING THIS, NODE DETAILS WILL BE OVERWRITTEN BY DATA SPECIFIC TO THIS PATH.
  */
 
-delay_t put_AAT(const Library &l, DAG &g, vector<node> analysis_path, ostream& outs)
+delay_t put_AAT(const Library &l, DAG &g, path analysis_path, ostream& outs)
 {
     print_path_report_header(outs);
     delay_t path_delay = 0;
-    for(node &_n:analysis_path.nodes)
+    for(node* (__n):analysis_path.flow)
     {
+        node& _n = *__n;
         switch(_n.type){
             case NODE_T::IN :{                                      //If input node
                 //Delay from file
-                _n.transition_time =0;
+                _n.input_transition_time =0;
                 _n.node_delay = g.getDelayConstraint(_n.name);     //In case of input port, the transition is the same as the delay
             }
             case NODE_T::OUT : {
-                //Previous transition time 
+                //Previous transition time
                 g.getAssignInputTransition(&_n, l);
                 //Capacitance from fan-out nodes
                 g.getAssignOutCapacitance(&_n, l);
                 //Assign output node delay
-                _n.cell_delay=get_cell_time(_n.cell_type,_n.input_transition_time,0,l);
+                _n.node_delay=get_cell_time(_n.cell_type,_n.input_transition_time,0,l);
             }
             default:{
-                //Previous transition time 
+                //Previous transition time
                 g.getAssignInputTransition(&_n, l);
                 //Capacitance from fan-out nodes
                 g.getAssignOutCapacitance(&_n, l);
                 //Assign Cell Delay
-                _n.cell_delay=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
+                _n.node_delay=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
             }
         }   //End of the switch statement
         //Increment the total path delay
@@ -140,28 +142,20 @@ delay_t put_AAT(const Library &l, DAG &g, vector<node> analysis_path, ostream& o
     return path_delay;
 }
 
-vector<node> getCriticalPath(const DAG &g)
-{
-	return vector<node>();
+void analyzePrintPathReports(const liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs){
+  for (path path:all_paths){
+    put_AAT(l, g, path, outs);
+  }
 }
 
-int main(int argc, char ** argv)
+//TODO: Implement this
+path getCriticalPath(const DAG &g)
 {
-    DAG g;
-    ifstream netlist;
-	ifstream caplist;
-
-    netlist.open(argv[2], std::ifstream::in);
-	caplist.open(argv[3], std::ifstream::in);
-    parse_netlist(netlist,caplist,g);
-
-    Library l = parse(argv[1]);
-    put_AAT(l,g);
-	vector<node> critical = getCriticalPath(g);
-
+  //TODO:
+	return path();
 }
-
-
+//TODO: Implement this
+/*
 void Identitfy_violation(std::vector<path> paths) {
 //enum PATH_T {NA = -1, IR, RR, RO, IO};
 for(path p: paths.size())
@@ -170,31 +164,32 @@ for(path p: paths.size())
     {
         //using update path vector which has delays calculated for each node !!
         //Setup:
-       // T ≥ Tpd + InputDelay + OutputDelay − Tskew 
+       // T ≥ Tpd + InputDelay + OutputDelay − Tskew
          //Hold:
         // Tskew +Thold < InputDelay + Tpd
     }
     else if(p.pathtype==PATH_T::RR){
        // Setup:
-        //T≥Tpd +Tcq +Tsetup−Tskew 
+        //T≥Tpd +Tcq +Tsetup−Tskew
         //Hold:
        // Tskew +Thold < Tcq + Tpd
-        
+
     }
     else if (p.pathtype==PATH_T::IO)
     {
         //Setup:
         //T ≥ Tpd + InputDelay + OutputDelay − Tskew
-        
+
     }
     else  //RO
     {
        // Setup:
-         //   T ≥ Tpd + InputDelay + OutputDelay − Tskew 
+         //   T ≥ Tpd + InputDelay + OutputDelay − Tskew
         //Hold:
           //  Tskew +Thold < InputDelay+ Tpd
-        
+
     }
-    
+
 }
 }
+*/

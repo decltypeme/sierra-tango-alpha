@@ -5,6 +5,11 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
+#include "../libertyparser-1.0/src/liberty.h"
+
+using namespace std;
+using namespace utils;
+using namespace liberty;
 
 class node;
 class DAG;
@@ -24,12 +29,12 @@ PATH_T get_path_type(const std::string &s, const NODE_T& start_node_type, const 
 class edge
 {
 public:
-    //TODO: overload the constructor to pass the net capacitance  
+    //TODO: overload the constructor to pass the net capacitance
     edge(const std::string &_name, const std::string &_n):name(_name),n(_n){}
     edge(const std::string &_name, const std::string &_n, cap_t &_net_capacitance):name(_name),n(_n),net_capacitance(_net_capacitance){}
 
     ~edge(){}
-    //ToDO: pin/net name 
+    //ToDO: pin/net name
     std::string name;
     cap_t net_capacitance;
     std::string n;
@@ -60,7 +65,7 @@ class DAG
 public:
     DAG();
     ~DAG();
-    std::vector<node> nodes;
+    std::vector<node > nodes;
     node* getNodeByName(std::string NodeName);
     delay_t getDelayConstraint(string input_name);
     cap_t getAssignInputTransition(node* in_node, const Library &l);
@@ -68,7 +73,8 @@ public:
     //TODO: change function to get cap from hashedMap
     cap_map_t cap_map;
     cap_map_t delay_map;
-    //TODO: get net name to join nodes 
+    cap_map_t constraints_map;
+    //TODO: get net name to join nodes
     void join(std::string edgeName, std::string n1,std::string n2);
 };
 

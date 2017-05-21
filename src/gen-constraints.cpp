@@ -22,7 +22,6 @@ void parse_net_input(vector<string>& input_names, vector<string>& wire_names, if
     regex re("\\s*(input|wire)\\s*(.+)\\s*");
     string line;
     while(getline(netlist_stream, line, ';')){
-        cout << line << endl;
         if(regex_match(line, re)){
             smatch sm;
             regex_search(line, sm, re);
@@ -48,14 +47,14 @@ int main(int argc, char** argv){
         exit(EXIT_FAILURE);
     }
     ofstream cap_stream(argv[2]);
-    ofstream constraint_stream(argv[2]);
-    
+    ofstream constraint_stream(argv[3]);
+
     vector<string> input_names, wire_names;
-    
+
     parse_net_input(input_names, wire_names, netlist_stream);
     write_random_net_cap(wire_names, cap_stream);
     write_random_timing_constraints(input_names, constraint_stream);
-    
+
     //Close streams
     netlist_stream.close();
     cap_stream.close();

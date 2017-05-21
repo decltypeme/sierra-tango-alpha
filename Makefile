@@ -1,6 +1,6 @@
-CPPFLAGS=-std=c++11
+	CPPFLAGS=-std=c++11
 COMPILER=g++
-LIBERTYFLAGS=-I libertyparser-1.0/src 
+LIBERTYFLAGS=-I libertyparser-1.0/src
 LIBERTYLIB= libertyparser-1.0/src/*.o
 
 reporter: src/design_reporter.cpp
@@ -9,11 +9,11 @@ reporter: src/design_reporter.cpp
 path-lister: src/path-lister.cpp src/DAG.cpp src/parser.cpp
 	mkdir -p bin && $(COMPILER) src/DAG.cpp src/parser.cpp src/path-lister.cpp $(CPPFLAGS) -o bin/path-lister
 
-cpm: src/cpm.cpp
-	mkdir -p bin && $(COMPILER) src/cpm.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/cpm $(LIBERTYLIB)
-	
 gen-constraints: src/gen-constraints.cpp
-	mkdir -p bin && $(COMPILER) src/gen-constraints.cpp $(CPPFLAGS) -o bin/gen-net-cap
+		mkdir -p bin && $(COMPILER) src/gen-constraints.cpp $(CPPFLAGS) -o bin/gen-net-cap
+
+sta: src/netlist.cpp src/cpm.cpp src/parser.cpp src/sta.cpp src/DAG.cpp src/path_finding.cpp
+	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/sta.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/sta $(LIBERTYLIB)
 
 clean:
 	rm bin/*
