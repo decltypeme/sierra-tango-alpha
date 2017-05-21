@@ -46,10 +46,11 @@ public:
     std::string name;
     NODE_T type;
     std::string cell_type;
-    std::vector<edge> in_edges;
+    // TO Do- fill
+    std::vector<string> in_nodes;                                               //This needs to be filled when constructing edges
     std::vector<edge> out_edges;
     cap_t output_cap;
-    delay_t cell_delay;
+    delay_t node_delay;
     delay_t input_transition_time;
     std::vector<delay_t> input_transition_time_list;
 };
@@ -61,6 +62,9 @@ public:
     ~DAG();
     std::vector<node> nodes;
     node* getNodeByName(std::string NodeName);
+    delay_t getDelayConstraint(string input_name);
+    cap_t getAssignInputTransition(node* in_node, const Library &l);
+    cap_t getAssignOutCapacitance(node* in_node, const Library &l);
     //TODO: change function to get cap from hashedMap
     cap_map_t cap_map;
     cap_map_t delay_map;

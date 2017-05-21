@@ -122,6 +122,28 @@ void fill_DAG(DAG &g)
     }
 }
 
+
+void read_delaylist(std::ifstream &delaylist, cap_map_t &delay_map)
+{
+    string netname;
+    delay_t  delayValue;
+    
+    if(delaylist.is_open())
+    {
+        while(!delaylist.eof())
+        {
+            delaylist>>netname;
+            delaylist>>delayValue;
+            delay_map.insert({netname,delayValue});
+            
+  
+        }
+       // caplist.close();
+
+    }
+    
+}
+
 void read_caplist(std::ifstream &caplist, cap_map_t &cap_map)
 {
     string netname;
@@ -142,7 +164,7 @@ void read_caplist(std::ifstream &caplist, cap_map_t &cap_map)
     }
     
 
-};
+}
 
 void parse_netlist(std::ifstream &netlist, std::ifstream &caplist, DAG &g)
 {
