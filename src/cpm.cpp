@@ -77,10 +77,21 @@ cap_t get_input_pin_cap(string cell_type, const Library &l)
     }
 }
 
-void put_AAT(const Library &l, DAG &g)
+void put_AAT(const Library &l, DAG &g, vector<node>& critical_path)
 {
     for(node &_n:g.nodes)
     {
+        switch(_n.type){
+            case NODE_T::IN :{ //If input node
+                //void parse_net_input(vector<string>& input_names, vector<string>& wire_names, ifstream& netlist_stream);
+                
+                //Delay from file
+                g.delay_map.find(
+
+            }
+        }
+       
+        
         if (max_element(_n.input_transition_time_list.begin(),_n.input_transition_time_list.end())!=_n.input_transition_time_list.end())
             _n.input_transition_time=*max_element(_n.input_transition_time_list.begin(),_n.input_transition_time_list.end());
         else

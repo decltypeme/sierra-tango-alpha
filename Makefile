@@ -12,8 +12,8 @@ path-lister: src/path-lister.cpp src/DAG.cpp src/parser.cpp
 cpm: src/cpm.cpp
 	mkdir -p bin && $(COMPILER) src/cpm.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/cpm $(LIBERTYLIB)
 	
-gen-net-cap: src/gen-net-cap.cpp cap.cpp
-	mkdir -p bin && $(COMPILER) src/gen-net-cap.cpp cap.cpp $(CPPFLAGS) -o bin/gen-net-cap
+gen-constraints: src/gen-constraints.cpp
+	mkdir -p bin && $(COMPILER) src/gen-constraints.cpp $(CPPFLAGS) -o bin/gen-net-cap
 
 clean:
 	rm bin/*

@@ -46,7 +46,8 @@ public:
     std::string name;
     NODE_T type;
     std::string cell_type;
-    std::vector<edge> edges;
+    std::vector<edge> in_edges;
+    std::vector<edge> out_edges;
     cap_t output_cap;
     delay_t cell_delay;
     delay_t input_transition_time;
@@ -62,6 +63,7 @@ public:
     node* getNodeByName(std::string NodeName);
     //TODO: change function to get cap from hashedMap
     cap_map_t cap_map;
+    cap_map_t delay_map;
     //TODO: get net name to join nodes 
     void join(std::string edgeName, std::string n1,std::string n2);
 };
