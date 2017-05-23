@@ -18,7 +18,7 @@ void process_component(string component_type, string component_name, string comp
     compBox new_component;
     new_component.type = component_type;
     new_component.name = component_name;
-    regex pin_pattern("\\s*\\.([A-z|0-9|_]+)\\(([A-z|0-9|_]+)\\)\\s*");
+    regex pin_pattern("\\s*\\.\\s*([A-z|0-9|_|.|\\s]+)\\s*\\(\\s*([A-z|0-9|_|.|\\s]+)\\s*\\)\\s*");
     stringstream ss(component_pins);
     while(getline(ss, line, ',')){
         pin new_pin;
