@@ -58,7 +58,7 @@ public:
     std::string cell_type;
     // TO Do- fill
     std::vector<string> in_nodes;                                               //This needs to be filled when constructing edges
-    std::vector<edge> out_edges;
+    std::vector<edge> out_edges ;
     cap_t output_cap;
     delay_t node_delay;
     delay_t input_transition_time;

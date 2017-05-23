@@ -17,7 +17,7 @@ std::vector<path > get_paths_graph( DAG &g)
 std::vector<path> get_paths_node(const node &n, DAG &g)
 {
     std::vector<path> paths;
-    for (const edge &e: n.edges)
+    for (const edge &e: n.out_edges)
     {
         path local_path;
         if(n.type==FFQ)
@@ -50,7 +50,7 @@ void get_paths_recursive(const node &n, const DAG &g, path whole_path, std::vect
         return;
     }
     else{
-        for (const edge &e: n.edges)
+        for (const edge &e: n.out_edges)
         {
             get_paths_recursive(*e.n, g, whole_path, all_paths);
         }

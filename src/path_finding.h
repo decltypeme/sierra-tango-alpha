@@ -4,9 +4,9 @@
 #include <iostream>
 
 struct path{
-     node* start;
-     node* end;
-    std::vector<node*> flow;                     //Start and End points are part of the flow
+     string start;
+     string end;
+    std::vector<string> flow;                     //Start and End points are part of the flow
     PATH_T pathtype;
 };
 
