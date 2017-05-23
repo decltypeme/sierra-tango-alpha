@@ -15,6 +15,10 @@ typedef float cap_t;
 typedef float delay_t;
 
 extern delay_t get_transtion_time (std::string name, delay_t input_transition_time,cap_t output_cap,  liberty::Library &l);
+extern delay_t get_cell_time(std::string name, delay_t input_transition_time,cap_t output_cap,  liberty::Library &l);
+extern cap_t get_input_pin_cap(std::string name,  liberty::Library &l);
+
+extern delay_t get_transtion_time (std::string name, delay_t input_transition_time,cap_t output_cap,  liberty::Library &l);
 extern cap_t get_input_pin_cap(std::string name,  liberty::Library &l);
 
 
