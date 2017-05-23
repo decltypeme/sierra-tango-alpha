@@ -1,4 +1,4 @@
-	CPPFLAGS=-std=c++11
+CPPFLAGS=-std=c++11
 COMPILER=g++
 LIBERTYFLAGS=-I libertyparser-1.0/src
 LIBERTYLIB= libertyparser-1.0/src/*.o

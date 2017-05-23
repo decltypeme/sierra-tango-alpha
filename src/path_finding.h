@@ -12,7 +12,7 @@ struct path{
 
 void get_paths_recursive( node &n,  DAG &g, path whole_path, std::vector<path>& all_paths);
 
-std::vector<path> get_paths_node( node &n, DAG &g);
+std::vector<path> get_paths_node(node &n, DAG &g);
 
 std::vector<path> get_paths_graph( DAG &g);
 

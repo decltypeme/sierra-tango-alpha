@@ -19,8 +19,7 @@ int main(int argc, char *argv[])
     }
     if (netlist.is_open())
     {
-		ifstream dummy;
-        parse_netlist(netlist,dummy,dummy,dummy,g);
+        read_netlist(netlist,vecComp, g);        //Do not use parse_netlist; Use read_netlist
     }
 
     vector<path> paths;
@@ -37,7 +36,7 @@ int main(int argc, char *argv[])
         out << PATH_NAMES[p.pathtype] << ":\t\t" << p.start << " (" << NODE_T_NAMES[start->type] << ")\t";
         for (const string n_name:p.flow)
         {
-        	node* n = g.getNodeByName(n_name);
+          	node* n = g.getNodeByName(n_name);
             out << n->name << " (" << NODE_T_NAMES[n->type] << ")\t";
         }
         out << endl;
