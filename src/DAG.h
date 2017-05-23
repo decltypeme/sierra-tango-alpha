@@ -36,7 +36,7 @@ class edge
 public:
     //TODO: overload the ructor to pass the net capacitance
     edge( std::string &_name,  std::string &_n):name(_name),n(_n){}
-    edge( std::string &_name,  std::string &_n, cap_t &_net_capacitance):name(_name),n(_n),net_capacitance(_net_capacitance){}
+    edge( std::string &_name,  std::string &_n, cap_t &_net_capacitance):name(_name),net_capacitance(_net_capacitance),n(_n){}
 
     ~edge(){}
     //ToDO: pin/net name
