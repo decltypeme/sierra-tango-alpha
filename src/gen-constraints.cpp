@@ -19,12 +19,25 @@ void write_random_timing_constraints(const vector<string>& input_names, ostream&
 }
 
 void parse_net_input(vector<string>& input_names, vector<string>& wire_names, ifstream& netlist_stream){
-    regex re("\\s*(input|wire)\\s*(.+)\\s*");
+    regex port_pattern("\\s*(input|wire)\\s*(.+)\\s*");
+    regex port_array_pattern("\\s*(input|wire)\\s*\\[([0-9]+):([0-9]+)\\]\\s*([^\\s]*)\\s*");
     string line;
     while(getline(netlist_stream, line, ';')){
-        if(regex_match(line, re)){
+        if(regex_match(line, port_array_pattern)){
             smatch sm;
-            regex_search(line, sm, re);
+            regex_search(line, sm, port_array_pattern);
+            //Assign the matching
+            string port_type    = sm[1];
+            int end             = stoi(sm[2]);
+            int start           = stoi(sm[3]);
+            string port_name    = sm[4];
+            vector<string>& matching_vector = (port_type == "wire")?wire_names : input_names;
+            for(int ii = start; ii <= end; ii++)
+              matching_vector.push_back(port_name + string("[") + to_string(ii) + string("]"));   //Just write my_wire[ii]
+        }
+        else if(regex_match(line, port_pattern)){
+            smatch sm;
+            regex_search(line, sm, port_pattern);
             string type = sm[1];
             string name = sm[2];
             vector<string>& matching_vector = (type == "wire")?wire_names : input_names;
