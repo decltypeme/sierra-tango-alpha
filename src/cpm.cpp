@@ -84,19 +84,24 @@ cap_t get_input_pin_cap(string cell_type,  Library &l)
 }
 
 
+
 void print_path_report_header(ostream& outs){
-    cout << "---------------------------------------------------------------------------" << endl;
-    cout << "Pin \t\t\t Type \t\t\t Increment \t\t\t Path Delay \t\t\t " << endl;
-    cout << "---------------------------------------------------------------------------" << endl;
+    static int x = 0;
+    x++;
+    outs << "---------------------------------------------------------------------------" << endl;
+    outs << "-----------------------------Report#" << x<<  " --------------------------------------" << endl;
+    outs << "---------------------------------------------------------------------------" << endl;
+    outs << "Pin \t\t\t Type \t\t\t Increment \t\t\t Path Delay \t\t\t " << endl;
+    outs << "---------------------------------------------------------------------------" << endl;
 }
 
 void print_path_report_footer(ostream& outs,  delay_t& total_path_delay){
-    cout << "---------------------------------------------------------------------------" << endl;
-    cout << "Data Arrival Time \t\t\t\t\t\t\t\t\t" << total_path_delay << endl;
+    outs << "---------------------------------------------------------------------------" << endl;
+    outs << "Data Arrival Time \t\t\t\t\t\t\t\t\t" << total_path_delay << endl;
 }
 
 void print_node_report(ostream& outs, node* node_report_ptr, delay_t path_delay_so_far){
-    cout << "Pin \t\t\t" << node_report_ptr->type << " \t\t\t" << node_report_ptr->node_delay << "\t\t\t" << path_delay_so_far << "\t\t\t " << endl;
+    outs << "Pin \t\t\t" << node_report_ptr->type << " \t\t\t" << node_report_ptr->node_delay << "\t\t\t" << path_delay_so_far << "\t\t\t " << endl;
 }
 
 /**

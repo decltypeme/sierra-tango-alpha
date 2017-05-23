@@ -1,6 +1,11 @@
 # sierra-tango-alpha
 Static Timing Analyzer
 
+## Module: STA
+
+```
+./bin/sta [LIBERTY_FILE_PATH] [NET_LIST] [CAPACITANCE_FILE] [CONSTRAINT_FILE] [CLK_SKEW_FILE] [PATH_REPORT_OUTPUT_FILE]
+```
 
 ## Module: Path-Lister
 

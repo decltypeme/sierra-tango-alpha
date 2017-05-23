@@ -5,16 +5,16 @@
 
 using namespace std;
 
-bool assert_stream_working(ofstream& st){
+bool assert_stream_working(ofstream& st, const string& stream_name = "unknown stream name"){
   if(st.fail() || !st.is_open()){
-    cerr << "Stream Failed" << endl;
+    cerr << "Stream Failed: " << stream_name << endl;
     exit(EXIT_FAILURE);
   }
 }
 
-bool assert_stream_working(ifstream& st){
+bool assert_stream_working(ifstream& st, const string& stream_name = "unknown stream name"){
   if(st.fail() || !st.is_open()){
-    cerr << "Stream Failed" << endl;
+    cerr << "Stream Failed: " << stream_name << endl;
     exit(EXIT_FAILURE);
   }
 }
@@ -34,11 +34,11 @@ int main(int argc, char** argv){
   ofstream path_report_stream(argv[6]);
 
   //Assert all streams are successful
-  assert_stream_working(netlist_stream);
-  assert_stream_working(cap_stream);
-  assert_stream_working(constraint_stream);
-  assert_stream_working(clk_stream);
-  assert_stream_working(path_report_stream);
+  assert_stream_working(netlist_stream, argv[2]);
+  assert_stream_working(cap_stream, argv[3]);
+  assert_stream_working(constraint_stream,argv[4]);
+  assert_stream_working(clk_stream,argv[5]);
+  assert_stream_working(path_report_stream,argv[6]);
 
 
   parse_netlist(netlist_stream, cap_stream,constraint_stream, clk_stream, g);
