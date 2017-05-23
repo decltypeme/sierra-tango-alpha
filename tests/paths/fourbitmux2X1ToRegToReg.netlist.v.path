@@ -1,0 +1,8 @@
+R-O:		clk (IN)	q__08_ (FFQ)	out[0] (OUT)	
+R-O:		clk (IN)	q__09_ (FFQ)	out[1] (OUT)	
+R-O:		clk (IN)	q__10_ (FFQ)	out[2] (OUT)	
+R-O:		clk (IN)	q__11_ (FFQ)	out[3] (OUT)	
+R-R:		clk (IN)	q__12_ (FFQ)	d__08_ (FFD)	
+R-R:		clk (IN)	q__13_ (FFQ)	d__09_ (FFD)	
+R-R:		clk (IN)	q__14_ (FFQ)	d__10_ (FFD)	
+R-R:		clk (IN)	q__15_ (FFQ)	d__11_ (FFD)	

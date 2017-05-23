@@ -5,7 +5,7 @@ std::vector<path > get_paths_graph( DAG &g)
     std::vector<path> paths;
     for(node &n: g.nodes)
     {
-        if ( n.type == OUT || n.type == FFD || n.type == CELL || n.name == "clk"){
+        if ( n.type == OUT || n.type == FFD || n.type == CELL){
             continue;
         }
         std::vector<path> paths_new = get_paths_node(n,g);
@@ -20,13 +20,7 @@ std::vector<path> get_paths_node(node &n, DAG &g)
     for (const edge &e: n.out_edges)
     {
         path local_path;
-        if(n.type==FFQ)
-        {
-            local_path.start = "clk";
-            local_path.flow.push_back(n.name);
-        }
-        else
-            local_path.start = n.name;
+        local_path.start = n.name;
 
         node* node_ref = g.getNodeByName(e.n);
         get_paths_recursive(*node_ref, g, local_path, paths);
@@ -46,10 +40,6 @@ void get_paths_recursive(node &n, DAG &g, path whole_path, std::vector<path>& al
         whole_path.end = n.name;
         whole_path.pathtype = resolved_path_type;
         all_paths.push_back(whole_path);
-        return;
-    }
-    else if(current_node_type == OUT){
-        std::cout << "Magically, I am here!\n";
         return;
     }
     else{

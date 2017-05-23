@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     if (netlist.is_open())
     {
         read_netlist(netlist,vecComp, g);        //Do not use parse_netlist; Use read_netlist
+        fill_DAG(g);
     }
 
     vector<path> paths;
@@ -41,5 +42,9 @@ int main(int argc, char *argv[])
         }
         out << endl;
     }
+
+    if(netlist.is_open()) netlist.close();
+    if(path_file.is_open()) path_file.close();
+
 	return 0;
 }

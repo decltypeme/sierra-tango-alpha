@@ -1,0 +1,4 @@
+R-O:		clk (IN)	q__6_ (FFQ)	y (OUT)	
+I-R:		d (IN)	_3_ (CELL)	d__4_ (FFD)	
+I-R:		rst (IN)	_3_ (CELL)	d__4_ (FFD)	
+I-R:		rst (IN)	_5_ (CELL)	d__6_ (FFD)	
