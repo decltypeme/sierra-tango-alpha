@@ -63,10 +63,12 @@ public:
     // TO Do- fill
     std::vector<string> in_nodes;                                               //This needs to be filled when constructing edges
     std::vector<edge> out_edges ;
+    /* All of these attributes have been moved to the analysis_node_t struct
     cap_t output_cap;
     delay_t node_delay;
     delay_t input_transition_time;
     std::vector<delay_t> input_transition_time_list;
+    */
 };
 
 class DAG

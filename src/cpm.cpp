@@ -100,48 +100,56 @@ void print_path_report_footer(ostream& outs,  delay_t& total_path_delay){
     outs << "Data Arrival Time \t\t\t\t\t\t\t\t\t" << total_path_delay << endl;
 }
 
-void print_node_report(ostream& outs, node* node_report_ptr, delay_t path_delay_so_far){
-    outs << "Pin \t\t\t" << node_report_ptr->type << " \t\t\t" << node_report_ptr->node_delay << "\t\t\t" << path_delay_so_far << "\t\t\t " << endl;
+void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r, delay_t path_delay_so_far){
+    outs << "Pin \t\t\t" << node_report_ptr->type << " \t\t\t" << r.node_delay << "\t\t\t" << path_delay_so_far << "\t\t\t " << endl;
 }
 
 /**
  * Return path delay
- * IMPORTANT: WHEN USING THIS, NODE DETAILS WILL BE OVERWRITTEN BY DATA SPECIFIC TO THIS PATH.
+ * IMPORTANT: CHANGED THIS: WHEN USING THIS, NODE DETAILS WILL BE OVERWRITTEN BY DATA SPECIFIC TO THIS PATH.
  */
 
 delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
 {
+
     print_path_report_header(outs);
+    path_analysis_t analysis;
     delay_t path_delay = 0;
-    for(string node_name:analysis_path.flow)
+    for(string _s:analysis_path.flow){
+      analysis.insert(make_pair(_s, analysis_node_t()));
+      analysis_node_t& r = (analysis.find(_s))->second;
+      r.name = _s;
+    }
+    for(string _s:analysis_path.flow)
     {
-        node& _n = *g.getNodeByName(node_name);
+        analysis_node_t& r = (analysis.find(_s))->second;
+        node& _n = *g.getNodeByName(_s);
         switch(_n.type){
             case NODE_T::IN :{                                      //If input node
                 //Delay from file
-                _n.input_transition_time =0;
-                _n.node_delay = getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
+                r.input_transition_time =0;
+                r.node_delay = getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
             }
             case NODE_T::OUT : {
                 //Previous transition time
-                getAssignInputTransition(&_n, l,g);
+                getAssignInputTransition(&_n, r, l,g);
                 //Capacitance from fan-out nodes
-                getAssignOutCapacitance(&_n, l,g);
+                getAssignOutCapacitance(&_n, r, l,g);
                 //Assign output node delay
-                _n.node_delay=get_cell_time(_n.cell_type,_n.input_transition_time,0,l);
+                r.node_delay=get_cell_time(_n.cell_type,r.input_transition_time,0,l);
             }
             default:{
                 //Previous transition time
-                getAssignInputTransition(&_n, l,g);
+                getAssignInputTransition(&_n, r, l,g);
                 //Capacitance from fan-out nodes
-                getAssignOutCapacitance(&_n, l,g);
+                getAssignOutCapacitance(&_n, r, l,g);
                 //Assign Cell Delay
-                _n.node_delay=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
+                r.node_delay=get_cell_time(_n.cell_type,r.input_transition_time,r.output_cap,l);
             }
         }   //End of the switch statement
         //Increment the total path delay
-        path_delay+= _n.node_delay;
-        print_node_report(outs, &_n, path_delay);
+        path_delay+= r.node_delay;
+        print_node_report(outs, &_n, r, path_delay);
     }//End of path analysis
     print_path_report_footer(outs, path_delay);
     return path_delay;
@@ -211,7 +219,7 @@ delay_t getDelayConstraint( string& node_name, DAG& g){
 }
 
 
-cap_t getAssignInputTransition(node* in_node,  Library &l, DAG& g){
+cap_t getAssignInputTransition(node* in_node, analysis_node_t& r, Library &l, DAG& g){
     //Iterate over all the previous nodes
     //Compute their transition time
     //Return the maximum
@@ -219,13 +227,13 @@ cap_t getAssignInputTransition(node* in_node,  Library &l, DAG& g){
         node* node_ref = g.getNodeByName(in_node_name);                     //Get a reference to this node
         //Compute its transition time
         //TODO: Make sure this is working!
-        delay_t transition_time = get_transtion_time(node_ref->cell_type,node_ref->input_transition_time,node_ref->output_cap,l);
-        in_node->input_transition_time_list.push_back(transition_time);
+        delay_t transition_time = get_transtion_time(node_ref->cell_type,r.input_transition_time,r.output_cap,l);
+        r.input_transition_time_list.push_back(transition_time);
     }
     //Find the maximum element
-    auto it = max_element(in_node->input_transition_time_list.begin(),in_node->input_transition_time_list.end());
-    if(it != in_node->input_transition_time_list.end()){
-        return in_node->input_transition_time = *it;
+    auto it = max_element(r.input_transition_time_list.begin(),r.input_transition_time_list.end());
+    if(it != r.input_transition_time_list.end()){
+        return r.input_transition_time = *it;
     }
     else{
         cerr << "Warning: Calling the transition counting on an input node\n";
@@ -234,11 +242,11 @@ cap_t getAssignInputTransition(node* in_node,  Library &l, DAG& g){
 
 }
 
-cap_t getAssignOutCapacitance(node* in_node,  Library &l, DAG &g){
-    in_node->output_cap = 0;
+cap_t getAssignOutCapacitance(node* in_node, analysis_node_t& r,  Library &l, DAG &g){
+    r.output_cap = 0;
     for(edge _e:in_node->out_edges){
         node* node_ref = g.getNodeByName(_e.n);
-        in_node->output_cap += (get_input_pin_cap(node_ref->cell_type,l) + _e.net_capacitance);
+        r.output_cap += (get_input_pin_cap(node_ref->cell_type,l) + _e.net_capacitance);
     }
-    return in_node->output_cap;
+    return r.output_cap;
 }
