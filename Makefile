@@ -6,8 +6,8 @@ LIBERTYLIB= libertyparser-1.0/src/*.o
 reporter: src/design_reporter.cpp
 	mkdir -p bin && $(COMPILER) src/design_reporter.cpp $(CPPFLAGS) -o bin/reporter.o
 
-path-lister: src/path-lister.cpp src/DAG.cpp src/parser.cpp src/netlist.cpp 
-	mkdir -p bin && $(COMPILER) src/DAG.cpp src/parser.cpp src/path-lister.cpp src/netlist.cpp $(CPPFLAGS) -o bin/path-lister
+path-lister: src/path-lister.cpp src/DAG.cpp src/parser.cpp src/netlist.cpp src/path_finding.cpp
+	mkdir -p bin && $(COMPILER) src/DAG.cpp src/parser.cpp src/path-lister.cpp src/netlist.cpp src/path_finding.cpp $(CPPFLAGS) -o bin/path-lister
 
 gen-constraints: src/gen-constraints.cpp
 		mkdir -p bin && $(COMPILER) src/gen-constraints.cpp $(CPPFLAGS) -o bin/gen-net-cap
