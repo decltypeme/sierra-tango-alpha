@@ -20,5 +20,8 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs);
 void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs);
 void Identitfy_violation(std::vector<path > paths);
 path getCriticalPath( DAG &g);
+cap_t getAssignOutCapacitance(node* in_node,  Library &l, DAG &g);
+cap_t getAssignInputTransition(node* in_node,  Library &l, DAG& g);
+delay_t getDelayConstraint( string& node_name, DAG& g);
 
 #endif

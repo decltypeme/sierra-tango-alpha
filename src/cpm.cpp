@@ -193,3 +193,47 @@ for(path p: paths.size())
 }
 }
 */
+
+delay_t getDelayConstraint( string& node_name, DAG& g){
+    auto it = g.delay_map.find(node_name);                    //Let's pray the compiler would get it
+    if(it != g.delay_map.end()){
+        return (*it).second;
+    }
+    else{
+        cerr  << "Couldnot retrieve delay from delay constraint map: " << node_name << endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+cap_t getAssignInputTransition(node* in_node,  Library &l, DAG& g){
+    //Iterate over all the previous nodes
+    //Compute their transition time
+    //Return the maximum
+    for(string in_node_name: in_node->in_nodes){                                      //Over all in_node names
+        node* node_ref = g.getNodeByName(in_node_name);                     //Get a reference to this node
+        //Compute its transition time
+        //TODO: Make sure this is working!
+        delay_t transition_time = get_transtion_time(node_ref->cell_type,node_ref->input_transition_time,node_ref->output_cap,l); 
+        in_node->input_transition_time_list.push_back(transition_time);
+    }
+    //Find the maximum element
+    auto it = max_element(in_node->input_transition_time_list.begin(),in_node->input_transition_time_list.end());
+    if(it != in_node->input_transition_time_list.end()){
+        return in_node->input_transition_time = *it;
+    }
+    else{
+        cerr << "Warning: Calling the transition counting on an input node\n"; 
+        return 0;
+    }
+    
+}
+
+cap_t getAssignOutCapacitance(node* in_node,  Library &l, DAG &g){
+    in_node->output_cap = 0;
+    for(edge _e:in_node->out_edges){
+        node* node_ref = g.getNodeByName(_e.n);
+        in_node->output_cap += (get_input_pin_cap(node_ref->cell_type,l) + _e.net_capacitance);
+    }
+    return in_node->output_cap;
+}
