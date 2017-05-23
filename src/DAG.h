@@ -11,11 +11,16 @@ using namespace std;
 using namespace utils;
 using namespace liberty;
 
+typedef float cap_t;
+typedef float delay_t;
+
+extern delay_t get_transtion_time (std::string name, delay_t input_transition_time,cap_t output_cap,  liberty::Library &l);
+extern cap_t get_input_pin_cap(std::string name,  liberty::Library &l);
+
+
 class node;
 class DAG;
 
-typedef float cap_t;
-typedef float delay_t;
 
 typedef std::unordered_map<std::string, cap_t> cap_map_t;        //The capacitance list is a hashmap of the net name and the capacitance value
 
@@ -24,14 +29,14 @@ enum NODE_T {IN,OUT,CELL, FFD,FFQ,START};
 extern std::string PATH_NAMES[];
 enum PATH_T {NA = -1, IR, RR, RO, IO};
 
-PATH_T get_path_type(const std::string &s, const NODE_T& start_node_type, const NODE_T& end_node_type);
+PATH_T get_path_type( std::string &s,  NODE_T& start_node_type,  NODE_T& end_node_type);
 
 class edge
 {
 public:
-    //TODO: overload the constructor to pass the net capacitance
-    edge(const std::string &_name, const std::string &_n):name(_name),n(_n){}
-    edge(const std::string &_name, const std::string &_n, cap_t &_net_capacitance):name(_name),n(_n),net_capacitance(_net_capacitance){}
+    //TODO: overload the ructor to pass the net capacitance
+    edge( std::string &_name,  std::string &_n):name(_name),n(_n){}
+    edge( std::string &_name,  std::string &_n, cap_t &_net_capacitance):name(_name),n(_n),net_capacitance(_net_capacitance){}
 
     ~edge(){}
     //ToDO: pin/net name
@@ -44,8 +49,8 @@ public:
 class node
 {
 public:
-    node(const std::string &name, const NODE_T &type): name(name), type(type){}
-    node(const std::string &name, const NODE_T &type, const std::string& cell_type):
+    node( std::string name,  NODE_T type): name(name), type(type){}
+    node( std::string name,  NODE_T type,  std::string cell_type):
        name(name), type(type), cell_type(cell_type){}
     ~node(){}
     std::string name;
@@ -67,9 +72,9 @@ public:
     ~DAG();
     std::vector<node > nodes;
     node* getNodeByName(std::string NodeName);
-    delay_t getDelayConstraint(string input_name);
-    cap_t getAssignInputTransition(node* in_node, const Library &l);
-    cap_t getAssignOutCapacitance(node* in_node, const Library &l);
+    delay_t getDelayConstraint( string& node_name, DAG& g);
+    cap_t getAssignInputTransition(node* in_node,  Library &l);
+    cap_t getAssignOutCapacitance(node* in_node,  Library &l);
     //TODO: change function to get cap from hashedMap
     cap_map_t cap_map;
     cap_map_t delay_map;

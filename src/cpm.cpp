@@ -10,7 +10,7 @@ using namespace std;
 using namespace utils;
 using namespace liberty;
 
-delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
+delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_t output_cap,  Library &l)
 {
     if (cell_type.empty()) return 0;
     else
@@ -38,7 +38,7 @@ delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_
     }
 }
 
-delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t output_cap, const Library &l)
+delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t output_cap,  Library &l)
 {
     if (cell_type.empty()) return 0;
     else
@@ -66,7 +66,7 @@ delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t outp
     }
 }
 
-cap_t get_input_pin_cap(string cell_type, const Library &l)
+cap_t get_input_pin_cap(string cell_type,  Library &l)
 {
     if (cell_type.empty()) return 0;
     else
@@ -90,7 +90,7 @@ void print_path_report_header(ostream& outs){
     cout << "---------------------------------------------------------------------------" << endl;
 }
 
-void print_path_report_footer(ostream& outs, const delay_t& total_path_delay){
+void print_path_report_footer(ostream& outs,  delay_t& total_path_delay){
     cout << "---------------------------------------------------------------------------" << endl;
     cout << "Data Arrival Time \t\t\t\t\t\t\t\t\t" << total_path_delay << endl;
 }
@@ -104,7 +104,7 @@ void print_node_report(ostream& outs, node* node_report_ptr, delay_t path_delay_
  * IMPORTANT: WHEN USING THIS, NODE DETAILS WILL BE OVERWRITTEN BY DATA SPECIFIC TO THIS PATH.
  */
 
-delay_t put_AAT(const Library &l, DAG &g, path analysis_path, ostream& outs)
+delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
 {
     print_path_report_header(outs);
     delay_t path_delay = 0;
@@ -115,7 +115,7 @@ delay_t put_AAT(const Library &l, DAG &g, path analysis_path, ostream& outs)
             case NODE_T::IN :{                                      //If input node
                 //Delay from file
                 _n.input_transition_time =0;
-                _n.node_delay = g.getDelayConstraint(_n.name);     //In case of input port, the transition is the same as the delay
+                _n.node_delay = g.getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
             }
             case NODE_T::OUT : {
                 //Previous transition time
@@ -142,14 +142,14 @@ delay_t put_AAT(const Library &l, DAG &g, path analysis_path, ostream& outs)
     return path_delay;
 }
 
-void analyzePrintPathReports(const liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs){
+void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs){
   for (path path:all_paths){
     put_AAT(l, g, path, outs);
   }
 }
 
 //TODO: Implement this
-path getCriticalPath(const DAG &g)
+path getCriticalPath( DAG &g)
 {
   //TODO:
 	return path();

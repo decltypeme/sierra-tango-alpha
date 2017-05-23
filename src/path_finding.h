@@ -4,15 +4,15 @@
 #include <iostream>
 
 struct path{
-    const node* start;
-    const node* end;
+     node* start;
+     node* end;
     std::vector<node*> flow;                     //Start and End points are part of the flow
     PATH_T pathtype;
 };
 
-void get_paths_recursive(const node &n, const DAG &g, path whole_path, std::vector<path>& all_paths);
+void get_paths_recursive( node &n,  DAG &g, path whole_path, std::vector<path>& all_paths);
 
-std::vector<path> get_paths_node(const node &n, DAG &g);
+std::vector<path> get_paths_node( node &n, DAG &g);
 
 std::vector<path> get_paths_graph( DAG &g);
 
