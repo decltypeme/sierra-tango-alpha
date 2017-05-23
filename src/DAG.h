@@ -76,9 +76,6 @@ public:
     ~DAG();
     std::vector<node > nodes;
     node* getNodeByName(std::string NodeName);
-    delay_t getDelayConstraint( string& node_name, DAG& g);
-    cap_t getAssignInputTransition(node* in_node,  Library &l);
-    cap_t getAssignOutCapacitance(node* in_node,  Library &l);
     //TODO: change function to get cap from hashedMap
     cap_map_t cap_map;
     cap_map_t delay_map;

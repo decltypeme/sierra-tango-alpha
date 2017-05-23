@@ -108,28 +108,28 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
 {
     print_path_report_header(outs);
     delay_t path_delay = 0;
-    for(node* (__n):analysis_path.flow)
+    for(string node_name:analysis_path.flow)
     {
-        node& _n = *__n;
+        node& _n = *g.getNodeByName(node_name);
         switch(_n.type){
             case NODE_T::IN :{                                      //If input node
                 //Delay from file
                 _n.input_transition_time =0;
-                _n.node_delay = g.getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
+                _n.node_delay = getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
             }
             case NODE_T::OUT : {
                 //Previous transition time
-                g.getAssignInputTransition(&_n, l);
+                getAssignInputTransition(&_n, l,g);
                 //Capacitance from fan-out nodes
-                g.getAssignOutCapacitance(&_n, l);
+                getAssignOutCapacitance(&_n, l,g);
                 //Assign output node delay
                 _n.node_delay=get_cell_time(_n.cell_type,_n.input_transition_time,0,l);
             }
             default:{
                 //Previous transition time
-                g.getAssignInputTransition(&_n, l);
+                getAssignInputTransition(&_n, l,g);
                 //Capacitance from fan-out nodes
-                g.getAssignOutCapacitance(&_n, l);
+                getAssignOutCapacitance(&_n, l,g);
                 //Assign Cell Delay
                 _n.node_delay=get_cell_time(_n.cell_type,_n.input_transition_time,_n.output_cap,l);
             }
@@ -214,7 +214,7 @@ cap_t getAssignInputTransition(node* in_node,  Library &l, DAG& g){
         node* node_ref = g.getNodeByName(in_node_name);                     //Get a reference to this node
         //Compute its transition time
         //TODO: Make sure this is working!
-        delay_t transition_time = get_transtion_time(node_ref->cell_type,node_ref->input_transition_time,node_ref->output_cap,l); 
+        delay_t transition_time = get_transtion_time(node_ref->cell_type,node_ref->input_transition_time,node_ref->output_cap,l);
         in_node->input_transition_time_list.push_back(transition_time);
     }
     //Find the maximum element
@@ -223,10 +223,10 @@ cap_t getAssignInputTransition(node* in_node,  Library &l, DAG& g){
         return in_node->input_transition_time = *it;
     }
     else{
-        cerr << "Warning: Calling the transition counting on an input node\n"; 
+        cerr << "Warning: Calling the transition counting on an input node\n";
         return 0;
     }
-    
+
 }
 
 cap_t getAssignOutCapacitance(node* in_node,  Library &l, DAG &g){
