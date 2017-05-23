@@ -28,11 +28,11 @@ void process_component(string component_type, string component_name, string comp
         new_pin.pinConn = sm[2];
 		if (new_pin.pinName[0] == 'Y' || new_pin.pinName[0] == 'Q')
 		{
-			new_component.inputs.push_back(new_pin);
+            new_component.outputs.push_back(new_pin);
 		}
 		else
 		{
-			new_component.outputs.push_back(new_pin);
+            new_component.inputs.push_back(new_pin);
 		}
     }
     vecComp.push_back(new_component);
