@@ -111,10 +111,20 @@ void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r,
 
 delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
 {
+// takes a path
+// loops over it and calculates the delay for each node in the path
+// print report for every node in the path 
 
     print_path_report_header(outs);
+    //analysis_node_t 
+    //{string name;  cap_t output_cap;  delay_t node_delay;  delay_t input_transition_time; 
+    //vector<delay_t> input_transition_time_list;
+
+    //unordered list  <std::string, analysis_node_t>
     path_analysis_t analysis;
     delay_t path_delay = 0;
+    //loop over the path
+    //fill analysis list
     for(string _s:analysis_path.flow){
       analysis.insert(make_pair(_s, analysis_node_t()));
       analysis_node_t& r = (analysis.find(_s))->second;
@@ -151,11 +161,13 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
         path_delay+= r.node_delay;
         print_node_report(outs, &_n, r, path_delay);
     }//End of path analysis
+    
     print_path_report_footer(outs, path_delay);
     return path_delay;
 }
 
 void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs){
+    // does path analysis and print report for all paths one by one
   for (path path:all_paths){
     put_AAT(l, g, path, outs);
   }

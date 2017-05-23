@@ -24,6 +24,7 @@ int main(int argc, char** argv){
   Library l = parse(argv[1]);
   DAG g;
   delay_t clk_time, setup_time, hold_time, skew_time;
+  
   //Open Input File Streams
   ifstream netlist_stream(argv[2]);
   ifstream cap_stream(argv[3]);
