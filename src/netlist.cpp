@@ -146,8 +146,8 @@ void parse_netlist(std::ifstream &netlist, std::ifstream &cap_stream,std::ifstre
   read_map_list(cap_stream, g.cap_map);
   read_map_list(constraint_stream, g.delay_map);
   read_map_list(clk_stream, g.constraints_map);
-	read_netlist(netlist, vecComp, g);
-	fill_DAG(g);
+  read_netlist(netlist, vecComp, g);
+  fill_DAG(g);
 }
 
 
