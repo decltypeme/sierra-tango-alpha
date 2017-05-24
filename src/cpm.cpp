@@ -134,7 +134,7 @@ void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r,
  * IMPORTANT: CHANGED THIS: WHEN USING THIS, NODE DETAILS WILL BE OVERWRITTEN BY DATA SPECIFIC TO THIS PATH.
  */
 
-delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
+delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
 {
 // takes a path
 // loops over it and calculates the delay for each node in the path
@@ -217,7 +217,7 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
 void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs){
     // does path analysis and print report for all paths one by one
   for (path path:all_paths){
-    put_AAT(l, g, path, outs);
+    analyzePaths(l, g, path, outs);
   }
 }
 
@@ -346,5 +346,8 @@ cap_t getAssignOutCapacitance(node* in_node, analysis_node_t& r,  Library &l, DA
 
 void CPM(Library &l,DAG& g)
 {
+    for (node& n :g.nodes)
+    {
 
+    }
 }

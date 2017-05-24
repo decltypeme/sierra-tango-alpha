@@ -26,7 +26,7 @@ cap_t get_input_pin_cap(std::string name,  liberty::Library &l);
 void print_path_report_header(ostream& outs);
 void print_path_report_footer(ostream& outs,  delay_t& total_path_delay);
 void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r,delay_t path_delay_so_far);
-delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs);
+delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs);
 void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs);
 void Identitfy_violation(std::vector<path > paths);
 pair<delay_t,path> getCriticalPath( DAG &g,ostream& outs);
