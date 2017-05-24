@@ -168,6 +168,10 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
     }
     for(string _s:analysis_path.flow)
     {
+        if (_s == "q__6_")
+        {
+            cout << "Hello"<<endl;
+        }
         analysis_node_t& r = (analysis.find(_s))->second;
         node& _n = *g.getNodeByName(_s);
         switch(_n.type){
@@ -200,7 +204,7 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
     
     print_path_report_footer(outs, path_delay);
 
-    if (path_delay > critical_delay)
+    if (path_delay > critical_delay && (analysis_path.pathtype==RR || analysis_path.pathtype==IR)
     {
         critical_delay = path_delay;
         critical_path = analysis_path;
@@ -338,4 +342,9 @@ cap_t getAssignOutCapacitance(node* in_node, analysis_node_t& r,  Library &l, DA
         r.output_cap += (get_input_pin_cap(node_ref->cell_type,l) + _e.net_capacitance);
     }
     return r.output_cap;
+}
+
+void CPM(Library &l,DAG& g)
+{
+
 }

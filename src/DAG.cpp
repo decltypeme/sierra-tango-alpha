@@ -52,3 +52,8 @@ void DAG::join(std::string edgeName, std::string n1,std::string n2){
         n2_n->in_nodes.push_back(n2);
 	}
 }
+
+void DAG::outputTiming(ofstream& outs)
+{
+
+}

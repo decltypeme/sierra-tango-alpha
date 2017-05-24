@@ -84,6 +84,7 @@ public:
     cap_map_t constraints_map;
     //TODO: get net name to join nodes
     void join(std::string edgeName, std::string n1,std::string n2);
+    void outputTiming(ofstream& outs);
 };
 
 #endif

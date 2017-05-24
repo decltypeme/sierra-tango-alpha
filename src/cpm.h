@@ -33,5 +33,5 @@ pair<delay_t,path> getCriticalPath( DAG &g,ostream& outs);
 cap_t getAssignOutCapacitance(node* in_node,analysis_node_t& r,  Library &l, DAG &g);
 cap_t getAssignInputTransition(node* in_node,analysis_node_t& r,  Library &l, DAG& g);
 delay_t getDelayConstraint( string& node_name, DAG& g);
-
+void CPM(Library &l,DAG& g);
 #endif
