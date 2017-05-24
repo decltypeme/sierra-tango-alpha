@@ -1,7 +1,6 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-
 #include "cpm.h"
 #include "netlist.h"
 #include "../libertyparser-1.0/src/liberty.h"
@@ -9,6 +8,10 @@
 using namespace std;
 using namespace utils;
 using namespace liberty;
+
+delay_t critical_delay = 0;
+path critical_path;
+path_analysis_t critical_analysis;
 
 delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_t output_cap,  Library &l)
 {
@@ -20,7 +23,7 @@ delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_
         delay_t max_t = 0;
         for (Pin p: pins)
         {
-            if(p.getDirection())
+            if(p.getName() > "L" )
             {
 
                 //transistion time is max of rise and fall
@@ -48,7 +51,7 @@ delay_t get_cell_time(string cell_type, delay_t input_transition_time,cap_t outp
         delay_t max_t = 0;
         for (Pin p: pins)
         {    // o/p pin
-            if(p.getDirection())
+            if(p.getName() > "L")
             {
                 // max of fall,rise delay of o/p pin
                 delay_t value;
@@ -77,7 +80,7 @@ cap_t get_input_pin_cap(string cell_type,  Library &l)
         for (Pin p: pins)
         {
             //max cap of o/p pins
-           if(p.getDirection()) max_c = max(p.getCapacitance(),max_c);
+           if(p.getName() > "L") max_c = max(p.getCapacitance(),max_c);
         }
         return max_c;
     }
@@ -91,7 +94,18 @@ void print_path_report_header(ostream& outs){
     outs << "---------------------------------------------------------------------------" << endl;
     outs << "-----------------------------Report#" << x<<  " --------------------------------------" << endl;
     outs << "---------------------------------------------------------------------------" << endl;
-    outs << "Pin \t\t\t Type \t\t\t Increment \t\t\t Path Delay \t\t\t " << endl;
+    outs.width(20);
+    outs << left;
+    outs << fixed;
+    outs << "Pin";
+    outs.width(20);
+    outs << "Cell Type";
+    outs.width(20);
+    outs << "Type";
+    outs.width(20);
+    outs << "Increment";
+    outs.width(20);
+    outs << "Path Delay" << endl;
     outs << "---------------------------------------------------------------------------" << endl;
 }
 
@@ -101,7 +115,18 @@ void print_path_report_footer(ostream& outs,  delay_t& total_path_delay){
 }
 
 void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r, delay_t path_delay_so_far){
-    outs << "Pin \t\t\t" << node_report_ptr->type << " \t\t\t" << r.node_delay << "\t\t\t" << path_delay_so_far << "\t\t\t " << endl;
+    outs.width(20);
+    outs << left;
+    outs << fixed;
+    outs << node_report_ptr->name;
+    outs.width(20);
+    outs << node_report_ptr->cell_type;
+    outs.width(20);
+    outs << NODE_T_NAMES[node_report_ptr->type];
+    outs.width(20);
+    outs << r.node_delay;
+    outs.width(20);
+    outs << path_delay_so_far << endl;
 }
 
 /**
@@ -116,7 +141,8 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
 // print report for every node in the path 
 
     print_path_report_header(outs);
-    //analysis_node_t 
+
+    //analysis_node_t
     //{string name;  cap_t output_cap;  delay_t node_delay;  delay_t input_transition_time; 
     //vector<delay_t> input_transition_time_list;
 
@@ -125,6 +151,16 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
     delay_t path_delay = 0;
     //loop over the path
     //fill analysis list
+
+    analysis.insert(make_pair(analysis_path.start, analysis_node_t()));
+    analysis_node_t& rIn = (analysis.find(analysis_path.start))->second;
+    rIn.name = analysis_path.start;
+    rIn.input_transition_time =0;
+    node& _n = *g.getNodeByName(analysis_path.start);
+    rIn.node_delay = getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
+    path_delay+= rIn.node_delay;
+    print_node_report(outs, &_n, rIn, path_delay);
+
     for(string _s:analysis_path.flow){
       analysis.insert(make_pair(_s, analysis_node_t()));
       analysis_node_t& r = (analysis.find(_s))->second;
@@ -163,6 +199,14 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
     }//End of path analysis
     
     print_path_report_footer(outs, path_delay);
+
+    if (path_delay > critical_delay)
+    {
+        critical_delay = path_delay;
+        critical_path = analysis_path;
+        critical_analysis = analysis;
+    }
+
     return path_delay;
 }
 
@@ -174,10 +218,35 @@ void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_pat
 }
 
 //TODO: Implement this
-path getCriticalPath( DAG &g)
+pair <delay_t, path> getCriticalPath( DAG &g,ostream& outs)
 {
-  //TODO:
-	return path();
+    outs << "---------------------------------------------------------------------------" << endl;
+    outs << "-----------------------------Critical Path --------------------------------------" << endl;
+    outs << "---------------------------------------------------------------------------" << endl;
+    outs.width(20);
+    outs << left;
+    outs << fixed;
+    outs << "Pin";
+    outs.width(20);
+    outs << "Cell Type";
+    outs.width(20);
+    outs << "Type";
+    outs.width(20);
+    outs << "Increment";
+    outs.width(20);
+    outs << "Path Delay" << endl;
+    outs << "---------------------------------------------------------------------------" << endl;
+
+    delay_t path_delay = 0;
+    analysis_node_t& rIn = (critical_analysis.find(critical_path.start))->second;
+    path_delay+= rIn.node_delay;
+    node& _n = *g.getNodeByName(critical_path.start);
+    print_node_report(outs, &_n, rIn, path_delay);
+
+
+
+    outs << "Maximum Data Arrival Time \t\t\t\t\t\t\t\t\t" << critical_delay << endl;
+  return {critical_delay,critical_path};
 }
 //TODO: Implement this
 /*

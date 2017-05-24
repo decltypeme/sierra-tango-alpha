@@ -29,7 +29,7 @@ void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r,
 delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs);
 void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs);
 void Identitfy_violation(std::vector<path > paths);
-path getCriticalPath( DAG &g);
+pair<delay_t,path> getCriticalPath( DAG &g,ostream& outs);
 cap_t getAssignOutCapacitance(node* in_node,analysis_node_t& r,  Library &l, DAG &g);
 cap_t getAssignInputTransition(node* in_node,analysis_node_t& r,  Library &l, DAG& g);
 delay_t getDelayConstraint( string& node_name, DAG& g);
