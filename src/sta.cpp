@@ -33,6 +33,7 @@ int main(int argc, char** argv){
 
   //Open Output File Streams
   ofstream path_report_stream(argv[6]);
+  ofstream violation(argv[7]);
 
   //Assert all streams are successful
   assert_stream_working(netlist_stream, argv[2]);
@@ -44,7 +45,7 @@ int main(int argc, char** argv){
 
   parse_netlist(netlist_stream, cap_stream,constraint_stream, clk_stream, g);
   vector<path> all_paths = get_paths_graph(g);
-  analyzePrintPathReports(l, g, all_paths, path_report_stream);
+  analyzePrintPathReports(l, g, all_paths, path_report_stream, violation);
   getCriticalPath(g, path_report_stream);
 
   //Close all streams

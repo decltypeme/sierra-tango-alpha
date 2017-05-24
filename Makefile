@@ -13,10 +13,14 @@ sta: src/netlist.cpp src/cpm.cpp src/parser.cpp src/sta.cpp src/DAG.cpp src/path
 	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/sta.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/sta $(LIBERTYLIB)
 	
 violations: src/netlist.cpp src/cpm.cpp src/parser.cpp src/violations.cpp src/DAG.cpp src/path_finding.cpp
-	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/violations.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/sta $(LIBERTYLIB)
+	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/violations.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/violations $(LIBERTYLIB)
 	
 slacks: src/netlist.cpp src/cpm.cpp src/parser.cpp src/violations.cpp src/DAG.cpp src/path_finding.cpp
-	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/slacks.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/sta $(LIBERTYLIB)
+	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/slacks.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/slacks $(LIBERTYLIB)
 
 clean:
 	rm bin/*
+	
+all: path-lister gen-constraints sta violations slacks
+	
+	

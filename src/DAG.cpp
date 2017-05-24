@@ -20,6 +20,8 @@ PATH_T get_path_type( std::string &s,  NODE_T& start_node_type,  NODE_T& end_nod
 DAG::DAG()
 {
     nodes.push_back(node(string("START"),START));
+    node* n = getNodeByName("START");
+    n->AAT=0;
 }
 
 DAG::~DAG(){}

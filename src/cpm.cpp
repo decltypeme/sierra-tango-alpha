@@ -168,10 +168,6 @@ delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs, ofs
     }
     for(string _s:analysis_path.flow)
     {
-        if (_s == "q__6_")
-        {
-            cout << "Hello"<<endl;
-        }
         analysis_node_t& r = (analysis.find(_s))->second;
         node& _n = *g.getNodeByName(_s);
         switch(_n.type){
@@ -421,8 +417,9 @@ delay_t getDelayConstraint( string& node_name, DAG& g){
         return (*it).second;
     }
     else{
-        cerr  << "Couldnot retrieve delay from delay constraint map: " << node_name << endl;
-        exit(EXIT_FAILURE);
+//        cerr  << "Couldnot retrieve delay from delay constraint map: " << node_name << endl;
+//        exit(EXIT_FAILURE);
+        return 0;
     }
 }
 
@@ -461,7 +458,17 @@ cap_t getAssignOutCapacitance(node* in_node, analysis_node_t& r,  Library &l, DA
 
 void putAAT(Library &l,DAG& g)
 {
+    for (node& n :g.nodes)
+    {
+        delay_t max_delay = 0;
+        for (string in: n.in_nodes)
+        {
+            delay_t delta_in_n;
 
+            max_delay= max(max_delay, g.getNodeByName(in)->AAT+delta_in_n);
+        }
+        n.AAT = max_delay + getDelayConstraint(n.name,g);
+    }
 }
 
 void putRAT(Library &l,DAG& g)
