@@ -38,3 +38,5 @@ sierra-tango-alpha/
 .vs/
 build*/
 bin/
+Makefile~
+src/playground.cpp
