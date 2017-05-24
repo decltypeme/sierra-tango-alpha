@@ -305,47 +305,42 @@ for(path p: paths.size())
 void Identitfy_violation( path_analysis_t analysis, PATH_T pathtype, delay_t path_delay,ofstream & violate,DAG &g) {
     //ofstream
     
-//enum PATH_T {NA = -1, IR, RR, RO, IO};
-string s__ = "clk";
-delay_t clkPr= g.constraints_map["clk"];
-s__= "skew";
-delay_t skew= g.constraints_map["skew"];
-s__="setup";
-delay_t setup= g.constraints_map["setup"];
-s__="hold";
-delay_t hold= g.constraints_map["hold"];
-s__="tcq";
-delay_t tcq= g.constraints_map["tcq"];
+    //enum PATH_T {NA = -1, IR, RR, RO, IO};
+    delay_t clkPr= g.constraints_map["clk"];
+    delay_t skew= g.constraints_map["skew"];
+    delay_t setup= g.constraints_map["setup"];
+    delay_t hold= g.constraints_map["hold"];
+    delay_t tcq= g.constraints_map["tcq"];
 
 
-bool setupViolated=false;
-bool holdViolated=false;
+    bool setupViolated=false;
+    bool holdViolated=false;
 
 
-//for(path_analysis_t p: analysis.size())
-//{
+    //for(path_analysis_t p: analysis.size())
+    //{
     // setupViolated=false;
-     //holdViolated=false;
+    //holdViolated=false;
     
     if(pathtype==PATH_T::IR)
     {
         //using update path vector which has delays calculated for each node !!
         //Setup:
         if(clkPr< path_delay-skew)
-          {setupViolated=true;
+        {setupViolated=true;
             violate<<"------------------------------------------\n";
             violate<<"\t \t \t Setup Violated\n" ;
+            violate<<"------------------------------------------\n"<<"\n";
+        }
+        // T ≥ Tpd + InputDelay + OutputDelay − Tskew
+        //Hold:
+        // Tskew +Thold < InputDelay + Tpd
+        if( (skew+hold)>= path_delay)
+        { holdViolated=true;
+            violate<<"------------------------------------------\n";
+            violate<<"\t \t \t Hold Violated\n" ;
             violate<<"------------------------------------------\n";
         }
-       // T ≥ Tpd + InputDelay + OutputDelay − Tskew
-         //Hold:
-         // Tskew +Thold < InputDelay + Tpd
-                 if( (skew+hold)>= path_delay)
-                { holdViolated=true;
-                     violate<<"------------------------------------------\n";
-                     violate<<"\t \t \t Hold Violated\n" ;
-                     violate<<"------------------------------------------\n";
-                 }
         if(setupViolated || holdViolated)
         {
             ///////////////////////////////////////////////// pass g
@@ -360,61 +355,61 @@ bool holdViolated=false;
             for(pair<string,analysis_node_t> p: analysis)
             {
                 node& _n = *g.getNodeByName(p.first);
-             violate.width(15);
-            violate << left;
+                violate.width(15);
+                violate << left;
                 violate<<p.first;
                 violate.width(15);
-            violate << left;
-            violate<<_n.cell_type<<"\n";
-             }
+                violate << left;
+                violate<<_n.cell_type<<"\n";
+            }
             
         }
 
     }
     else{
-      if(pathtype==PATH_T::RR)
-      {
-       // Setup:
-        //T≥Tpd +Tcq +Tsetup−Tskew
-        if(clkPr< path_delay+tcq+setup-skew)
-          {setupViolated=true;
-            violate<<"------------------------------------------\n";
-            violate<<"\t \t \t Hold Violated \n" ;
-            violate<<"------------------------------------------\n";
-        }
-        //Hold:
-       // Tskew +Thold < Tcq + Tpd                          ///////////cd ???
-         if( (skew+hold)>= tcq+path_delay)
-                { holdViolated=true;
-             violate<<"------------------------------------------\n";
-             violate<<"\t \t \t Hold Violated \n" ;
-             violate<<"------------------------------------------\n";
-         }
-                 
-        if(setupViolated || holdViolated)
+        if(pathtype==PATH_T::RR)
         {
-            ///////////////////////////////////////////////// pass g
-            violate<<"\t \t \t RR path \n";
-            
-            violate.width(15);
-            violate << left;
-            violate<<"node name";
-            violate.width(15);
-            violate << left;
-            violate<<"cell_type \n";
-            for(pair<string,analysis_node_t> p: analysis)
-            {
-                node& _n = *g.getNodeByName(p.first);
-             violate.width(15);
-            violate << left;
-                violate<<p.first;
-                violate.width(15);
-            violate << left;
-            violate<<_n.cell_type<<"\n";
+            // Setup:
+            //T≥Tpd +Tcq +Tsetup−Tskew
+            if(clkPr< path_delay+tcq+setup-skew)
+            {  setupViolated=true;
+                violate<<"------------------------------------------\n";
+                violate<<"\t \t \t Setup Violated \n" ;
+                violate<<"------------------------------------------\n";
             }
-            
+            //Hold:
+            // Tskew +Thold < Tcq + Tpd                          ///////////cd ???
+            if( (skew+hold)>= tcq+path_delay)
+            { holdViolated=true;
+                violate<<"------------------------------------------\n";
+                violate<<"\t \t \t Hold Violated \n" ;
+                violate<<"------------------------------------------\n";
+            }
+
+            if(setupViolated || holdViolated)
+            {
+                ///////////////////////////////////////////////// pass g
+                violate<<"\t \t \t RR path \n";
+
+                violate.width(15);
+                violate << left;
+                violate<<"node name";
+                violate.width(15);
+                violate << left;
+                violate<<"cell_type \n";
+                for(pair<string,analysis_node_t> p: analysis)
+                {
+                    node& _n = *g.getNodeByName(p.first);
+                    violate.width(15);
+                    violate << left;
+                    violate<<p.first;
+                    violate.width(15);
+                    violate << left;
+                    violate<<_n.cell_type<<"\n";
+                }
+
+            }
         }
-    }
 
     }
 }
