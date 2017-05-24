@@ -240,6 +240,7 @@ pair <delay_t, path> getCriticalPath( DAG &g,ostream& outs)
     outs << "---------------------------------------------------------------------------" << endl;
 
     delay_t path_delay = 0;
+    if(critical_analysis.size()>0){
     analysis_node_t& rIn = (critical_analysis.find(critical_path.start))->second;
     path_delay+= rIn.node_delay;
     node& _n = *g.getNodeByName(critical_path.start);
@@ -255,7 +256,7 @@ pair <delay_t, path> getCriticalPath( DAG &g,ostream& outs)
     outs << "---------------------------------------------------------------------------" << endl;
     outs << "Maximum Data Arrival Time \t\t\t\t\t\t\t\t\t" << critical_delay << endl;
     outs << "---------------------------------------------------------------------------" << endl;
-
+}
     return {critical_delay,critical_path};
 }
 //TODO: Implement this
