@@ -300,6 +300,103 @@ for(path p: paths.size())
 }
 */
 
+void Identitfy_violation( path_analysis_t analysis, PATH_T pathType, delay_t path_delay,ofstream & violate,DAG &g) {
+    //ofstream
+    
+//enum PATH_T {NA = -1, IR, RR, RO, IO};
+delay_t clkPr= getDelayConstraint( "clk",  g);
+delay_t skew= getDelayConstraint( "skew",  g);
+delay_t setup= getDelayConstraint( "setup",  g);
+delay_t hold= getDelayConstraint( "hold",  g);
+delay_t tcq= getDelayConstraint( "tcq",  g);
+
+
+bool setupViolated=false;
+bool holdViolated=false;
+
+
+//for(path_analysis_t p: analysis.size())
+//{
+    // setupViolated=false;
+     //holdViolated=false;
+    
+    if(pathtype==PATH_T::IR)
+    {
+        //using update path vector which has delays calculated for each node !!
+        //Setup:
+        if(clkPr< path_delay-skew)
+          {setupViolated=true; violate<<"\t \t \t Setup Violated\n" ;}
+       // T ≥ Tpd + InputDelay + OutputDelay − Tskew
+         //Hold:
+         // Tskew +Thold < InputDelay + Tpd
+                 if( (skew+hold)>= path_delay)
+                { holdViolated=true; violate<<"\t \t \t Hold Violated\n" ;}
+        if(setupViolated || holdViolated)
+        {
+            ///////////////////////////////////////////////// pass g
+            violate<<"\t \t \t IR path \n";
+            
+            violate.width(15);
+            violate << left;
+            violate<<"node name";
+            violate.width(15);
+            violate << left;
+            violate<<"cell_type \n";
+            for(path_analysis_t p: analysis.size())
+            {
+                node& _n = *g.getNodeByName(p.name);
+             violate.width(15);
+            violate << left;
+                violate<<p.name;
+                violate.width(15);
+            violate << left;
+            violate<<_n.cell_type<<"\n";
+             }
+            
+        }
+
+    }
+    else{
+      if(pathtype==PATH_T::RR)
+      {
+       // Setup:
+        //T≥Tpd +Tcq +Tsetup−Tskew
+        if(clkPr< path_delay+tcq+setup-skew)
+          {setupViolated=true; violate<<"\t \t \t Hold Violated \n" ;}
+        //Hold:
+       // Tskew +Thold < Tcq + Tpd                          ///////////cd ???
+         if( (skew+hold)>= tcq+path_delay)
+                { holdViolated=true;violate<<"\t \t \t Hold Violated \n" ;}
+                 
+        if(setupViolated || holdViolated)
+        {
+            ///////////////////////////////////////////////// pass g
+            violate<<"\t \t \t RR path \n";
+            
+            violate.width(15);
+            violate << left;
+            violate<<"node name";
+            violate.width(15);
+            violate << left;
+            violate<<"cell_type \n";
+            for(path_analysis_t p: analysis.size())
+            {
+                node& _n = *g.getNodeByName(p.name);
+             violate.width(15);
+            violate << left;
+                violate<<p.name;
+                violate.width(15);
+            violate << left;
+            violate<<_n.cell_type<<"\n";
+            }
+            
+        }
+    }
+
+    }
+}
+
+
 delay_t getDelayConstraint( string& node_name, DAG& g){
     auto it = g.delay_map.find(node_name);                    //Let's pray the compiler would get it
     if(it != g.delay_map.end()){
