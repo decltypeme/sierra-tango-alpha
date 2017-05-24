@@ -253,6 +253,7 @@ pair <delay_t, path> getCriticalPath( DAG &g,ostream& outs)
     outs << "---------------------------------------------------------------------------" << endl;
     outs << "Maximum Data Arrival Time \t\t\t\t\t\t\t\t\t" << critical_delay << endl;
     outs << "---------------------------------------------------------------------------" << endl;
+
   return {critical_delay,critical_path};
 }
 //TODO: Implement this

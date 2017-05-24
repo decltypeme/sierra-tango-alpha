@@ -14,6 +14,9 @@ gen-constraints: src/gen-constraints.cpp
 
 sta: src/netlist.cpp src/cpm.cpp src/parser.cpp src/sta.cpp src/DAG.cpp src/path_finding.cpp
 	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/sta.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/sta $(LIBERTYLIB)
+	
+violations: src/netlist.cpp src/cpm.cpp src/parser.cpp src/violations.cpp src/DAG.cpp src/path_finding.cpp
+	mkdir -p bin && $(COMPILER) src/netlist.cpp src/cpm.cpp src/parser.cpp src/sta.cpp src/DAG.cpp src/path_finding.cpp $(CPPFLAGS) $(LIBERTYFLAGS) -o bin/sta $(LIBERTYLIB)
 
 clean:
 	rm bin/*
