@@ -134,7 +134,7 @@ void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r,
  * IMPORTANT: CHANGED THIS: WHEN USING THIS, NODE DETAILS WILL BE OVERWRITTEN BY DATA SPECIFIC TO THIS PATH.
  */
 
-delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
+delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs, ofstream & violate)
 {
     // takes a path
     // loops over it and calculates the delay for each node in the path
@@ -199,6 +199,8 @@ delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
         }   //End of the switch statement
         //Increment the total path delay
         path_delay+= r.node_delay;
+        Identitfy_violation( analysis, analysis_path.pathtype, path_delay,violate, g);
+
         print_node_report(outs, &_n, r, path_delay);
     }//End of path analysis
     
@@ -214,10 +216,10 @@ delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
     return path_delay;
 }
 
-void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs){
+void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs, ofstream& outs2){
     // does path analysis and print report for all paths one by one
     for (path path:all_paths){
-        analyzePaths(l, g, path, outs);
+        analyzePaths(l, g, path, outs,outs2);
     }
 }
 
@@ -300,15 +302,20 @@ for(path p: paths.size())
 }
 */
 
-void Identitfy_violation( path_analysis_t analysis, PATH_T pathType, delay_t path_delay,ofstream & violate,DAG &g) {
+void Identitfy_violation( path_analysis_t analysis, PATH_T pathtype, delay_t path_delay,ofstream & violate,DAG &g) {
     //ofstream
     
 //enum PATH_T {NA = -1, IR, RR, RO, IO};
-delay_t clkPr= getDelayConstraint( "clk",  g);
-delay_t skew= getDelayConstraint( "skew",  g);
-delay_t setup= getDelayConstraint( "setup",  g);
-delay_t hold= getDelayConstraint( "hold",  g);
-delay_t tcq= getDelayConstraint( "tcq",  g);
+string s__ = "clk";
+delay_t clkPr= g.constraints_map["clk"];
+s__= "skew";
+delay_t skew= g.constraints_map["skew"];
+s__="setup";
+delay_t setup= g.constraints_map["setup"];
+s__="hold";
+delay_t hold= g.constraints_map["hold"];
+s__="tcq";
+delay_t tcq= g.constraints_map["tcq"];
 
 
 bool setupViolated=false;
@@ -325,12 +332,20 @@ bool holdViolated=false;
         //using update path vector which has delays calculated for each node !!
         //Setup:
         if(clkPr< path_delay-skew)
-          {setupViolated=true; violate<<"\t \t \t Setup Violated\n" ;}
+          {setupViolated=true;
+            violate<<"------------------------------------------\n";
+            violate<<"\t \t \t Setup Violated\n" ;
+            violate<<"------------------------------------------\n";
+        }
        // T ≥ Tpd + InputDelay + OutputDelay − Tskew
          //Hold:
          // Tskew +Thold < InputDelay + Tpd
                  if( (skew+hold)>= path_delay)
-                { holdViolated=true; violate<<"\t \t \t Hold Violated\n" ;}
+                { holdViolated=true;
+                     violate<<"------------------------------------------\n";
+                     violate<<"\t \t \t Hold Violated\n" ;
+                     violate<<"------------------------------------------\n";
+                 }
         if(setupViolated || holdViolated)
         {
             ///////////////////////////////////////////////// pass g
@@ -342,12 +357,12 @@ bool holdViolated=false;
             violate.width(15);
             violate << left;
             violate<<"cell_type \n";
-            for(path_analysis_t p: analysis.size())
+            for(pair<string,analysis_node_t> p: analysis)
             {
-                node& _n = *g.getNodeByName(p.name);
+                node& _n = *g.getNodeByName(p.first);
              violate.width(15);
             violate << left;
-                violate<<p.name;
+                violate<<p.first;
                 violate.width(15);
             violate << left;
             violate<<_n.cell_type<<"\n";
@@ -362,11 +377,19 @@ bool holdViolated=false;
        // Setup:
         //T≥Tpd +Tcq +Tsetup−Tskew
         if(clkPr< path_delay+tcq+setup-skew)
-          {setupViolated=true; violate<<"\t \t \t Hold Violated \n" ;}
+          {setupViolated=true;
+            violate<<"------------------------------------------\n";
+            violate<<"\t \t \t Hold Violated \n" ;
+            violate<<"------------------------------------------\n";
+        }
         //Hold:
        // Tskew +Thold < Tcq + Tpd                          ///////////cd ???
          if( (skew+hold)>= tcq+path_delay)
-                { holdViolated=true;violate<<"\t \t \t Hold Violated \n" ;}
+                { holdViolated=true;
+             violate<<"------------------------------------------\n";
+             violate<<"\t \t \t Hold Violated \n" ;
+             violate<<"------------------------------------------\n";
+         }
                  
         if(setupViolated || holdViolated)
         {
@@ -379,12 +402,12 @@ bool holdViolated=false;
             violate.width(15);
             violate << left;
             violate<<"cell_type \n";
-            for(path_analysis_t p: analysis.size())
+            for(pair<string,analysis_node_t> p: analysis)
             {
-                node& _n = *g.getNodeByName(p.name);
+                node& _n = *g.getNodeByName(p.first);
              violate.width(15);
             violate << left;
-                violate<<p.name;
+                violate<<p.first;
                 violate.width(15);
             violate << left;
             violate<<_n.cell_type<<"\n";
