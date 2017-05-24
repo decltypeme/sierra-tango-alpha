@@ -204,7 +204,7 @@ delay_t put_AAT( Library &l, DAG &g, path analysis_path, ostream& outs)
     
     print_path_report_footer(outs, path_delay);
 
-    if (path_delay > critical_delay && (analysis_path.pathtype==RR || analysis_path.pathtype==IR)
+    if (path_delay > critical_delay && (analysis_path.pathtype==RR || analysis_path.pathtype==IR))
     {
         critical_delay = path_delay;
         critical_path = analysis_path;
