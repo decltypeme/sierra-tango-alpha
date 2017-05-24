@@ -80,7 +80,7 @@ cap_t get_input_pin_cap(string cell_type,  Library &l)
         for (Pin p: pins)
         {
             //max cap of o/p pins
-           if(p.getName() > "L") max_c = max(p.getCapacitance(),max_c);
+            if(p.getName() > "L") max_c = max(p.getCapacitance(),max_c);
         }
         return max_c;
     }
@@ -136,14 +136,14 @@ void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r,
 
 delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
 {
-// takes a path
-// loops over it and calculates the delay for each node in the path
-// print report for every node in the path 
+    // takes a path
+    // loops over it and calculates the delay for each node in the path
+    // print report for every node in the path
 
     print_path_report_header(outs);
 
     //analysis_node_t
-    //{string name;  cap_t output_cap;  delay_t node_delay;  delay_t input_transition_time; 
+    //{string name;  cap_t output_cap;  delay_t node_delay;  delay_t input_transition_time;
     //vector<delay_t> input_transition_time_list;
 
     //unordered list  <std::string, analysis_node_t>
@@ -162,9 +162,9 @@ delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
     print_node_report(outs, &_n, rIn, path_delay);
 
     for(string _s:analysis_path.flow){
-      analysis.insert(make_pair(_s, analysis_node_t()));
-      analysis_node_t& r = (analysis.find(_s))->second;
-      r.name = _s;
+        analysis.insert(make_pair(_s, analysis_node_t()));
+        analysis_node_t& r = (analysis.find(_s))->second;
+        r.name = _s;
     }
     for(string _s:analysis_path.flow)
     {
@@ -175,27 +175,27 @@ delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
         analysis_node_t& r = (analysis.find(_s))->second;
         node& _n = *g.getNodeByName(_s);
         switch(_n.type){
-            case NODE_T::IN :{                                      //If input node
-                //Delay from file
-                r.input_transition_time =0;
-                r.node_delay = getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
-            }
-            case NODE_T::OUT : {
-                //Previous transition time
-                getAssignInputTransition(&_n, r, l,g);
-                //Capacitance from fan-out nodes
-                getAssignOutCapacitance(&_n, r, l,g);
-                //Assign output node delay
-                r.node_delay=get_cell_time(_n.cell_type,r.input_transition_time,0,l);
-            }
-            default:{
-                //Previous transition time
-                getAssignInputTransition(&_n, r, l,g);
-                //Capacitance from fan-out nodes
-                getAssignOutCapacitance(&_n, r, l,g);
-                //Assign Cell Delay
-                r.node_delay=get_cell_time(_n.cell_type,r.input_transition_time,r.output_cap,l);
-            }
+        case NODE_T::IN :{                                      //If input node
+            //Delay from file
+            r.input_transition_time =0;
+            r.node_delay = getDelayConstraint(_n.name,g);     //In case of input port, the transition is the same as the delay
+        }
+        case NODE_T::OUT : {
+            //Previous transition time
+            getAssignInputTransition(&_n, r, l,g);
+            //Capacitance from fan-out nodes
+            getAssignOutCapacitance(&_n, r, l,g);
+            //Assign output node delay
+            r.node_delay=get_cell_time(_n.cell_type,r.input_transition_time,0,l);
+        }
+        default:{
+            //Previous transition time
+            getAssignInputTransition(&_n, r, l,g);
+            //Capacitance from fan-out nodes
+            getAssignOutCapacitance(&_n, r, l,g);
+            //Assign Cell Delay
+            r.node_delay=get_cell_time(_n.cell_type,r.input_transition_time,r.output_cap,l);
+        }
         }   //End of the switch statement
         //Increment the total path delay
         path_delay+= r.node_delay;
@@ -216,9 +216,9 @@ delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs)
 
 void analyzePrintPathReports( liberty::Library &l, DAG &g, vector<path>& all_paths, ostream& outs){
     // does path analysis and print report for all paths one by one
-  for (path path:all_paths){
-    analyzePaths(l, g, path, outs);
-  }
+    for (path path:all_paths){
+        analyzePaths(l, g, path, outs);
+    }
 }
 
 //TODO: Implement this
@@ -258,7 +258,7 @@ pair <delay_t, path> getCriticalPath( DAG &g,ostream& outs)
     outs << "Maximum Data Arrival Time \t\t\t\t\t\t\t\t\t" << critical_delay << endl;
     outs << "---------------------------------------------------------------------------" << endl;
 
-  return {critical_delay,critical_path};
+    return {critical_delay,critical_path};
 }
 //TODO: Implement this
 /*
@@ -344,10 +344,22 @@ cap_t getAssignOutCapacitance(node* in_node, analysis_node_t& r,  Library &l, DA
     return r.output_cap;
 }
 
+void putAAT(Library &l,DAG& g)
+{
+
+}
+
+void putRAT(Library &l,DAG& g)
+{
+
+}
+
 void CPM(Library &l,DAG& g)
 {
+    putAAT(l,g);
+    putRAT(l,g);
     for (node& n :g.nodes)
     {
-
+        n.slack = n.RAT - n.AAT;
     }
 }

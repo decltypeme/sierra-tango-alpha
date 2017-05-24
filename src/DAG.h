@@ -63,6 +63,9 @@ public:
     // TO Do- fill
     std::vector<string> in_nodes;                                               //This needs to be filled when constructing edges
     std::vector<edge> out_edges ;
+    delay_t AAT;
+    delay_t RAT;
+    delay_t slack;
     /* All of these attributes have been moved to the analysis_node_t struct
     cap_t output_cap;
     delay_t node_delay;
