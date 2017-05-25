@@ -45,6 +45,7 @@ void DAG::join(std::string edgeName, std::string n1,std::string n2){
    //add cap
 	auto cap = cap_map.find(edgeName); //*
     if(cap != cap_map.end()) {
+        cout << cap->second << endl;
         n1_n->out_edges.push_back(edge(edgeName,n2_n->name,cap->second));
         n2_n->in_nodes.push_back(n2);
     }

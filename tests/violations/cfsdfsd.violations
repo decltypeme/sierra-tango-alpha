@@ -1,0 +1,93 @@
+------------------------------------------
+	 	 	 Hold Violated
+------------------------------------------
+	 	 	 IR path 
+node name      cell_type 
+    _5_            AND2X2         
+d__6_          DFFPOSX1       
+_2_            OR2X2          
+a                             
+------------------------------------------
+	 	 	 Setup Violated 
+------------------------------------------
+	 	 	 RR path 
+node name      cell_type 
+    d__6_          DFFPOSX1       
+clk                           
+q__4_          DFFPOSX1       
+_2_            OR2X2          
+_5_            AND2X2         
+------------------------------------------
+	 	 	 Setup Violated 
+------------------------------------------
+	 	 	 RR path 
+node name      cell_type 
+    d__6_          DFFPOSX1       
+clk                           
+q__4_          DFFPOSX1       
+_2_            OR2X2          
+_5_            AND2X2         
+------------------------------------------
+	 	 	 Setup Violated 
+------------------------------------------
+	 	 	 RR path 
+node name      cell_type 
+    d__6_          DFFPOSX1       
+clk                           
+q__4_          DFFPOSX1       
+_2_            OR2X2          
+_5_            AND2X2         
+------------------------------------------
+	 	 	 Setup Violated 
+------------------------------------------
+	 	 	 RR path 
+node name      cell_type 
+    d__6_          DFFPOSX1       
+clk                           
+q__4_          DFFPOSX1       
+_2_            OR2X2          
+_5_            AND2X2         
+------------------------------------------
+	 	 	 Setup Violated
+------------------------------------------
+
+	 	 	 IR path 
+node name      cell_type 
+    _3_            AND2X2         
+d__4_          DFFPOSX1       
+d                             
+------------------------------------------
+	 	 	 Setup Violated
+------------------------------------------
+
+	 	 	 IR path 
+node name      cell_type 
+    _3_            AND2X2         
+d__4_          DFFPOSX1       
+d                             
+------------------------------------------
+	 	 	 Setup Violated
+------------------------------------------
+
+	 	 	 IR path 
+node name      cell_type 
+    _3_            AND2X2         
+d__4_          DFFPOSX1       
+rst                           
+------------------------------------------
+	 	 	 Setup Violated
+------------------------------------------
+
+	 	 	 IR path 
+node name      cell_type 
+    _3_            AND2X2         
+d__4_          DFFPOSX1       
+rst                           
+------------------------------------------
+	 	 	 Hold Violated
+------------------------------------------
+	 	 	 IR path 
+node name      cell_type 
+    d__6_          DFFPOSX1       
+_5_            AND2X2         
+rst                           
