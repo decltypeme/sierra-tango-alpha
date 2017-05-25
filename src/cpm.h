@@ -34,4 +34,5 @@ cap_t getAssignOutCapacitance(node* in_node,analysis_node_t& r,  Library &l, DAG
 cap_t getAssignInputTransition(node* in_node,analysis_node_t& r,  Library &l, DAG& g);
 delay_t getDelayConstraint( string& node_name, DAG& g);
 void CPM(Library &l,DAG& g);
+void print_Cell (ostream& outs, node* node_report_ptr, analysis_node_t& r, delay_t path_delay_so_far);
 #endif

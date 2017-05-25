@@ -12,7 +12,7 @@ using namespace liberty;
 delay_t critical_delay = 0;
 path critical_path;
 path_analysis_t critical_analysis;
-
+string inn,outn;
 delay_t get_transtion_time (string cell_type, delay_t input_transition_time,cap_t output_cap,  Library &l)
 {
     if (cell_type.empty()) return 0;
@@ -115,6 +115,11 @@ void print_path_report_footer(ostream& outs,  delay_t& total_path_delay){
 }
 
 void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r, delay_t path_delay_so_far){
+    if(NODE_T_NAMES[node_report_ptr->type] =="CELL")
+
+        print_Cell (outs,  node_report_ptr,  r,  path_delay_so_far);
+       else{
+
     outs.width(20);
     outs << left;
     outs << fixed;
@@ -123,10 +128,31 @@ void print_node_report(ostream& outs, node* node_report_ptr, analysis_node_t& r,
     outs << node_report_ptr->cell_type;
     outs.width(20);
     outs << NODE_T_NAMES[node_report_ptr->type];
+    if(NODE_T_NAMES[node_report_ptr->type] =="IN")
+        inn=node_report_ptr->name;
+    if(NODE_T_NAMES[node_report_ptr->type] !="IN" && NODE_T_NAMES[node_report_ptr->type] !="FFD")
+       { //inn=node_report_ptr->name;
+        for( compBox &c: vecComp){
+            int FF=c.type.find("DFF");
+            string s= node_report_ptr->name ;int mat=s.find(c.name);
+            if(FF>=0 &&   mat>=0 )
+            {
+                for(pin &ipin:c.inputs)
+                {
+                    if(ipin.pinConn==inn || ipin.pinName==inn)
+                    { break;}
+                }
+              //  outpinname=c.outputs[0].pinName;
+               // outn=c.outputs[0].pinConn;
+                inn=c.outputs[0].pinConn;
+            }
+        }
+    }
     outs.width(20);
     outs << r.node_delay;
     outs.width(20);
     outs << path_delay_so_far << endl;
+    }
 }
 
 /**
@@ -259,6 +285,63 @@ pair <delay_t, path> getCriticalPath( DAG &g,ostream& outs)
 }
     return {critical_delay,critical_path};
 }
+
+void print_Cell (ostream& outs, node* node_report_ptr, analysis_node_t& r, delay_t path_delay_so_far)
+{
+
+    string cellT=node_report_ptr->cell_type;
+    string celln= node_report_ptr->name;
+    string inpinname,outpinname;
+    for( compBox &c: vecComp){
+        if(c.type==cellT &&   celln ==c.name  )
+        {
+            for(pin &ipin:c.inputs)
+            {
+                if(ipin.pinConn==inn || ipin.pinName==inn)
+                {inpinname=ipin.pinName; break;}
+            }
+            outpinname=c.outputs[0].pinName;
+            outn=c.outputs[0].pinConn;
+            inn=c.outputs[0].pinConn;
+        }
+    }
+    outs.width(20);
+    outs << left;
+    outs << fixed;
+    string temp;
+    temp=node_report_ptr->name +"/"+inpinname;
+    outs << temp;//node_report_ptr->name<< "/"<<inpinname;
+
+
+    outs.width(20);
+    outs << node_report_ptr->cell_type;
+    outs.width(20);
+    outs << NODE_T_NAMES[node_report_ptr->type];
+
+    outs.width(20);
+    outs << r.node_delay;
+    outs.width(20);
+    outs << path_delay_so_far << endl;
+
+    outs.width(20);
+    outs << left;
+    outs << fixed;
+    temp=node_report_ptr->name +"/Y";
+    outs << temp;
+    //outs << node_report_ptr->name<< "/Y";
+
+    outs.width(20);
+    outs << node_report_ptr->cell_type;
+    outs.width(20);
+    outs << NODE_T_NAMES[node_report_ptr->type];
+    outs.width(20);
+    outs << r.node_delay;
+    outs.width(20);
+    outs << path_delay_so_far << endl;
+
+}
+
+
 //TODO: Implement this
 /*
 void Identitfy_violation(std::vector<path> paths) {
