@@ -52,6 +52,12 @@ Path arguments
 ./bin/violations [LIBERTY_FILE_PATH] [NET_LIST] [CAPACITANCE_FILE] [CONSTRAINT_FILE] [CLK_SKEW_FILE] [PATH_REPORT_OUTPUT_FILE]
 ```
 
+## Module: Slacks
+
+To  build the module
+```
+make slacks
+```
 
 ## Dependecies
 Liberty Parser: http://vlsicad.ucsd.edu/~sharma/Research/software/liberty_parser/
