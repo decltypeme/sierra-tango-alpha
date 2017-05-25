@@ -10,11 +10,11 @@
 
 using namespace std;
 
-#define MIN_NET_CAP 0.05
-#define MAX_NET_CAP 0.2
+#define MIN_NET_CAP 0.1
+#define MAX_NET_CAP 1
 
-#define MIN_INPUT_TIMING    0
-#define MAX_INPUT_TIMING    0.1
+#define MIN_INPUT_TIMING    0.1
+#define MAX_INPUT_TIMING    1
 
 
 

@@ -1,0 +1,23 @@
+Digraph G {
+START[shape ="record", label = "{{START}|{RAT|AAT|SLACK}|{0.000000|0.000000|0.000000}}"];
+a[shape ="record", label = "{{a}|{RAT|AAT|SLACK}|{4.871701|0.722000|4.149701}}"];
+clk[shape ="record", label = "{{clk}|{RAT|AAT|SLACK}|{4.249707|0.480000|3.769707}}"];
+d[shape ="record", label = "{{d}|{RAT|AAT|SLACK}|{4.537703|0.286000|4.251702}}"];
+rst[shape ="record", label = "{{rst}|{RAT|AAT|SLACK}|{4.537703|0.325000|4.212703}}"];
+y[shape ="record", label = "{{y}|{RAT|AAT|SLACK}|{5.000000|1.230293|3.769707}}"];
+_1_[shape ="record", label = "{{_1_}|{RAT|AAT|SLACK}|{5.000000|1.230293|3.769707}}"];
+_2_[shape ="record", label = "{{_2_}|{RAT|AAT|SLACK}|{4.770645|0.557943|4.212702}}"];
+d__3_[shape ="record", label = "{{d__3_}|{RAT|AAT|SLACK}|{5.000000|0.787298|4.212702}}"];
+q__3_[shape ="record", label = "{{q__3_}|{RAT|AAT|SLACK}|{4.871701|1.101994|3.769707}}"];
+START->a;
+START->clk;
+START->d;
+START->rst;
+a->_1_;
+clk->q__3_;
+d->_2_;
+rst->_2_;
+_1_->y;
+_2_->d__3_;
+q__3_->_1_;
+}

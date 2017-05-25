@@ -1,74 +1,40 @@
 ------------------------------------------
-	 	 	 Hold Violated
+	 	 	 Setup Violated 
 ------------------------------------------
-	 	 	 IR path 
+	 	 	 RR path 
 node name      cell_type 
     d__6_          DFFPOSX1       
-_5_            AND2X2         
-a                             
+clk                           
+q__4_          DFFPOSX1       
 _2_            OR2X2          
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    d__6_          DFFPOSX1       
 _5_            AND2X2         
-a                             
-_2_            OR2X2          
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__6_          DFFPOSX1       
-_5_            AND2X2         
 clk                           
-_2_            OR2X2          
 q__4_          DFFPOSX1       
+_2_            OR2X2          
+_5_            AND2X2         
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__6_          DFFPOSX1       
-_5_            AND2X2         
 clk                           
-_2_            OR2X2          
 q__4_          DFFPOSX1       
+_2_            OR2X2          
+_5_            AND2X2         
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__6_          DFFPOSX1       
-_5_            AND2X2         
 clk                           
-_2_            OR2X2          
 q__4_          DFFPOSX1       
-------------------------------------------
-	 	 	 Setup Violated 
-------------------------------------------
-	 	 	 RR path 
-node name      cell_type 
-    d__6_          DFFPOSX1       
-_5_            AND2X2         
-clk                           
 _2_            OR2X2          
-q__4_          DFFPOSX1       
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    d__4_          DFFPOSX1       
-rst                           
-_3_            AND2X2         
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    d__6_          DFFPOSX1       
-rst                           
 _5_            AND2X2         

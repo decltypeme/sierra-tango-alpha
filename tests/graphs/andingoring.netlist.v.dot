@@ -1,0 +1,24 @@
+Digraph G {
+START[shape ="record", label = "{{START}|{RAT|AAT|SLACK}|{0.000000|0.000000|0.000000}}"];
+a[shape ="record", label = "{{a}|{RAT|AAT|SLACK}|{4.831110|0.397000|4.434110}}"];
+b[shape ="record", label = "{{b}|{RAT|AAT|SLACK}|{4.831110|0.722000|4.109109}}"];
+c[shape ="record", label = "{{c}|{RAT|AAT|SLACK}|{5.000000|0.827655|4.172345}}"];
+d[shape ="record", label = "{{d}|{RAT|AAT|SLACK}|{5.000000|1.266652|3.733348}}"];
+e[shape ="record", label = "{{e}|{RAT|AAT|SLACK}|{5.000000|1.305078|3.694922}}"];
+_1_[shape ="record", label = "{{_1_}|{RAT|AAT|SLACK}|{4.936764|0.827655|4.109110}}"];
+_2_[shape ="record", label = "{{_2_}|{RAT|AAT|SLACK}|{4.975190|1.241842|3.733348}}"];
+_3_[shape ="record", label = "{{_3_}|{RAT|AAT|SLACK}|{5.000000|1.266652|3.733348}}"];
+_4_[shape ="record", label = "{{_4_}|{RAT|AAT|SLACK}|{5.000000|1.305078|3.694922}}"];
+START->a;
+START->b;
+a->_1_;
+a->_2_;
+b->_1_;
+b->_2_;
+_1_->_4_;
+_1_->c;
+_2_->_3_;
+_2_->_4_;
+_3_->d;
+_4_->e;
+}

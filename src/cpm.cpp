@@ -199,7 +199,7 @@ delay_t analyzePaths( Library &l, DAG &g, path analysis_path, ostream& outs, ofs
 
         print_node_report(outs, &_n, r, path_delay);
     }//End of path analysis
-    
+
     print_path_report_footer(outs, path_delay);
 
     if (path_delay > critical_delay && (analysis_path.pathtype==RR || analysis_path.pathtype==IR))
@@ -301,7 +301,7 @@ for(path p: paths.size())
 
 void Identitfy_violation( path_analysis_t analysis, PATH_T pathtype, delay_t path_delay,ofstream & violate,DAG &g) {
     //ofstream
-    
+
     //enum PATH_T {NA = -1, IR, RR, RO, IO};
     delay_t clkPr= g.constraints_map["clk"];
     delay_t skew= g.constraints_map["skew"];
@@ -318,7 +318,7 @@ void Identitfy_violation( path_analysis_t analysis, PATH_T pathtype, delay_t pat
     //{
     // setupViolated=false;
     //holdViolated=false;
-    
+
     if(pathtype==PATH_T::IR)
     {
         //using update path vector which has delays calculated for each node !!
@@ -342,7 +342,7 @@ void Identitfy_violation( path_analysis_t analysis, PATH_T pathtype, delay_t pat
         {
             ///////////////////////////////////////////////// pass g
             violate<<"\t \t \t IR path \n";
-            
+
             violate.width(15);
             violate << left;
             violate<<"node name";
@@ -359,7 +359,7 @@ void Identitfy_violation( path_analysis_t analysis, PATH_T pathtype, delay_t pat
                 violate << left;
                 violate<<_n.cell_type<<"\n";
             }
-            
+
         }
 
     }
@@ -457,23 +457,181 @@ cap_t getAssignOutCapacitance(node* in_node, analysis_node_t& r,  Library &l, DA
     return r.output_cap;
 }
 
+vector<string> topsort(DAG& g){
+  vector<string> toReturn;
+  ofstream inter("graph.txt");
+  for(node & n: g.nodes)
+    for(edge _e:n.out_edges)
+      inter << n.name << "\t" << _e.n << endl;
+  inter.close();
+  string command = "tsort graph.txt > sorted.txt";
+  system(command.c_str());
+  ifstream sorted_list("sorted.txt");
+  string line;
+  while(getline(sorted_list, line))
+    toReturn.push_back(line);
+  sorted_list.close();
+  return toReturn;
+
+}
+
 void putAAT(Library &l,DAG& g)
 {
-    for (node& n :g.nodes)
-    {
+    vector<string> sorted_list = topsort(g);
+    //Create analysis nodes
+    path_analysis_t analysis;
+    //Fill the analysis nodes by all node names
+    for(string node_name :sorted_list){
+        node* node_ref = g.getNodeByName(node_name);
+        node& n = *node_ref;
+        string _s = n.name;
+        analysis.insert(make_pair(_s, analysis_node_t()));
+        analysis_node_t& r = (analysis.find(_s))->second;
+        r.name = _s;
+    }
+
+
+
+    //Apply the CPM by iterating over all nodes
+    for(string node_name :sorted_list){
+        node* node_ref = g.getNodeByName(node_name);
+        node& n = *node_ref;
+        //Find its analysis node
+        string _s = n.name;
+        analysis_node_t& r = (analysis.find(_s))->second;
+        //If it is an input node
+        if(n.type == NODE_T::IN){                                      //If input node
+            //Delay from file and Transition is zero ~with a French accent
+            r.input_transition_time = 0;
+        }
+        else if(n.type ==NODE_T::OUT){
+            //Previous transition time
+            getAssignInputTransition(&n, r, l,g);
+            //Capacitance from fan-out nodes
+            getAssignOutCapacitance(&n, r, l,g);
+        }
+        else{
+            //Previous transition time
+            getAssignInputTransition(&n, r, l,g);
+            //Capacitance from fan-out nodes
+            getAssignOutCapacitance(&n, r, l,g);
+        }
+    }
+
+
+    //Apply the CPM by iterating over all nodes
+    for(string node_name :sorted_list){
+        node* node_ref = g.getNodeByName(node_name);
+        node& n = *node_ref;
+        //Find its analysis node
+        string _s = n.name;
+        analysis_node_t& r = (analysis.find(_s))->second;
+        //Maximum in-delay from pervious nodes
         delay_t max_delay = 0;
         for (string in: n.in_nodes)
         {
             delay_t delta_in_n;
-
-            max_delay= max(max_delay, g.getNodeByName(in)->AAT+delta_in_n);
+            node* node_ref = g.getNodeByName(in);
+            delta_in_n = node_ref->AAT;
+            max_delay= max(max_delay, delta_in_n);
         }
-        n.AAT = max_delay + getDelayConstraint(n.name,g);
+        //Initialize the AAT
+        n.AAT = max_delay;
+        //If it is an input node
+        if(n.type == NODE_T::IN){                                      //If input node
+            //Delay from file and Transition is zero ~with a French accent
+            n.AAT = max_delay + getDelayConstraint(n.name,g);                     //Increment with my node delay
+        }
+        else if(n.type ==NODE_T::OUT){
+            n.AAT = max_delay + get_cell_time(n.cell_type,r.input_transition_time,0,l);
+        }
+        else{
+            //Assign Cell Delay
+            n.AAT = max_delay +  get_cell_time(n.cell_type,r.input_transition_time,r.output_cap,l);
+        }
     }
 }
 
 void putRAT(Library &l,DAG& g)
 {
+    vector<string> sorted_list = topsort(g);
+
+    //Create analysis nodes
+    path_analysis_t analysis;
+    //Fill the analysis nodes by all node names
+    for(string node_name :sorted_list){
+        node* node_ref = g.getNodeByName(node_name);
+        node& n = *node_ref;
+        string _s = n.name;
+        analysis.insert(make_pair(_s, analysis_node_t()));
+        analysis_node_t& r = (analysis.find(_s))->second;
+        r.name = _s;
+    }
+
+
+
+    //Apply the CPM by iterating over all nodes
+    for(string node_name :sorted_list){
+        node* node_ref = g.getNodeByName(node_name);
+        node& n = *node_ref;
+        //Find its analysis node
+        string _s = n.name;
+        analysis_node_t& r = (analysis.find(_s))->second;
+        //If it is an input node
+        if(n.type == NODE_T::IN){                                      //If input node
+            //Delay from file and Transition is zero ~with a French accent
+            r.input_transition_time = 0;
+        }
+        else if(n.type ==NODE_T::OUT){
+            //Previous transition time
+            getAssignInputTransition(&n, r, l,g);
+            //Capacitance from fan-out nodes
+            getAssignOutCapacitance(&n, r, l,g);
+        }
+        else{
+            //Previous transition time
+            getAssignInputTransition(&n, r, l,g);
+            //Capacitance from fan-out nodes
+            getAssignOutCapacitance(&n, r, l,g);
+        }
+    }
+
+
+
+    for(auto it = sorted_list.rbegin(); it!= sorted_list.rend(); it++){
+      string node_name = *it;
+      node* node_ref = g.getNodeByName(node_name);
+      node& n = *node_ref;
+      //Find its analysis node
+      string _s = n.name;
+      if(n.out_edges.empty()){
+        n.RAT = g.constraints_map["clk"];
+      }
+      else if(node_name == "START"){
+        n.RAT = 0;
+        continue;
+      }
+      else{
+        delay_t min_rat = std::numeric_limits<float>::max();
+        node* min_rat_node;
+        for(edge _e:n.out_edges){
+          delay_t temp;
+          node* out_ref = g.getNodeByName(_e.n);
+          temp = out_ref->RAT;
+          if(temp < min_rat){
+            min_rat_node = out_ref;
+          }
+          min_rat = min(min_rat, temp);
+        }
+      string _s_out = min_rat_node->name;
+      analysis_node_t& r_o = (analysis.find(_s_out))->second;
+      delay_t to_subtract =
+      get_cell_time(min_rat_node->cell_type,r_o.input_transition_time,r_o.output_cap,l);
+
+      n.RAT = min_rat - to_subtract;
+
+      }
+    }
 
 }
 

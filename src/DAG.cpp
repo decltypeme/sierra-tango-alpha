@@ -1,5 +1,8 @@
 #include "DAG.h"
 #include <algorithm>
+#include <fstream>
+
+using namespace std;
 
 std::string NODE_T_NAMES []= {"IN","OUT","CELL","FFD","FFQ","START"};
 std::string PATH_NAMES []= {"I-R","R-R","R-O","I-O"};
@@ -47,16 +50,28 @@ void DAG::join(std::string edgeName, std::string n1,std::string n2){
     if(cap != cap_map.end()) {
         cout << cap->second << endl;
         n1_n->out_edges.push_back(edge(edgeName,n2_n->name,cap->second));
-        n2_n->in_nodes.push_back(n2);
+        n2_n->in_nodes.push_back(n1);
     }
 	else
 	{
         n1_n->out_edges.push_back(edge(edgeName, n2_n->name));
-        n2_n->in_nodes.push_back(n2);
+        n2_n->in_nodes.push_back(n1);
 	}
 }
 
 void DAG::outputTiming(ofstream& outs)
 {
+    outs << "Digraph G {" << endl;
+    for(node& n : this->nodes){
+      string node_name = n.name;
+      string node_AAT = to_string(n.AAT);
+      string node_RAT = to_string(n.RAT);
+      string node_SLACK = to_string(n.slack);
+      outs << node_name << "[shape =\"record\", label = \"{{" << node_name <<"}|{RAT|AAT|SLACK}|{" << node_RAT <<"|" << node_AAT << "|" << node_SLACK << "}}\"];" << endl;
+    }
+    for(node & n: this->nodes)
+      for(edge _e:n.out_edges)
+        outs << n.name << "->" << _e.n << ";" << endl;
 
+    outs << "}" << endl;
 }

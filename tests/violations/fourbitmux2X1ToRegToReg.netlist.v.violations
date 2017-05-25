@@ -3,103 +3,62 @@
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
-    d__08_         DFFPOSX1       
+    q__12_         DFFPOSX1       
+d__08_         DFFPOSX1       
 clk                           
-q__12_         DFFPOSX1       
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
-    d__08_         DFFPOSX1       
+    q__12_         DFFPOSX1       
+d__08_         DFFPOSX1       
 clk                           
-q__12_         DFFPOSX1       
-------------------------------------------
-	 	 	 Setup Violated 
-------------------------------------------
-	 	 	 RR path 
-node name      cell_type 
-    d__09_         DFFPOSX1       
-clk                           
-q__13_         DFFPOSX1       
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__09_         DFFPOSX1       
-clk                           
 q__13_         DFFPOSX1       
+clk                           
+------------------------------------------
+	 	 	 Setup Violated 
+------------------------------------------
+	 	 	 RR path 
+node name      cell_type 
+    d__09_         DFFPOSX1       
+q__13_         DFFPOSX1       
+clk                           
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__10_         DFFPOSX1       
-clk                           
 q__14_         DFFPOSX1       
+clk                           
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__10_         DFFPOSX1       
-clk                           
 q__14_         DFFPOSX1       
+clk                           
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__11_         DFFPOSX1       
-clk                           
 q__15_         DFFPOSX1       
+clk                           
 ------------------------------------------
 	 	 	 Setup Violated 
 ------------------------------------------
 	 	 	 RR path 
 node name      cell_type 
     d__11_         DFFPOSX1       
-clk                           
 q__15_         DFFPOSX1       
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    d__12_         DFFPOSX1       
-sel                           
-_18_           OAI21X1        
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    d__13_         DFFPOSX1       
-sel                           
-_21_           OAI21X1        
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    d__14_         DFFPOSX1       
-sel                           
-_24_           OAI21X1        
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    d__15_         DFFPOSX1       
-sel                           
-_27_           OAI21X1        
-------------------------------------------
-	 	 	 Hold Violated
-------------------------------------------
-	 	 	 IR path 
-node name      cell_type 
-    _18_           OAI21X1        
-x[0]                          
-d__12_         DFFPOSX1       
-_16_           INVX1          
+clk                           
